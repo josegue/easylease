@@ -14,14 +14,12 @@ public class Product {
     private String meses;
     private String kmV;
     private String ultimacuota;
-    
-    
-    
-	public Product() {
-		super();
-	}
+    private String environmental;
+    private String environmentalalt;
+
 	public Product(String query, String imagen, String titulo, String alt, String subtitulo, String precio,
-			String numerolegal, String tin, String tae, String meses, String kmV, String ultimacuota) {
+			String numerolegal, String tin, String tae, String meses, String kmV, String ultimacuota,
+			String environmental, String environmentalalt) {
 		super();
 		this.query = query;
 		this.imagen = imagen;
@@ -35,6 +33,8 @@ public class Product {
 		this.meses = meses;
 		this.kmV = kmV;
 		this.ultimacuota = ultimacuota;
+		this.environmental = environmental;
+		this.environmentalalt = environmentalalt;
 	}
 	/**
 	 * @return the query
@@ -179,5 +179,29 @@ public class Product {
 	 */
 	public void setUltimacuota(String ultimacuota) {
 		this.ultimacuota = ultimacuota;
+	}
+	/**
+	 * @return the environmental
+	 */
+	public String getEnvironmental() {
+		return environmental;
+	}
+	/**
+	 * @param environmental the environmental to set
+	 */
+	public void setEnvironmental(String environmental) {
+		this.environmental = environmental;
+	}
+	/**
+	 * @return the environmentalalt
+	 */
+	public String getEnvironmentalalt() {
+		return environmentalalt;
+	}
+	/**
+	 * @param environmentalalt the environmentalalt to set
+	 */
+	public void setEnvironmentalalt(String environmentalalt) {
+		this.environmentalalt = environmentalalt;
 	}
 }

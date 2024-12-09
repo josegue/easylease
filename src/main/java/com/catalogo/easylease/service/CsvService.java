@@ -21,7 +21,7 @@ public class CsvService {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(splitBy);
-                Product producto = new Product(data[0],data[1], data[2],data[3], data[4],data[5], data[6],data[7], data[8], data[9], data[10], data[11]);
+                Product producto = new Product(data[0],data[1], data[2],data[3], data[4],data[5], data[6],data[7], data[8], data[9], data[10], data[11], data[24], data[25]);
                 productos.add(producto);
             }
         } catch (IOException e) {
