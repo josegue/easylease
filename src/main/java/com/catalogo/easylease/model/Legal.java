@@ -3,32 +3,38 @@ package com.catalogo.easylease.model;
 public class Legal {
 
 	private String numerolegal;
-	private String cuotaMensualSinIVA;
-	private String cuotaMensualConIVA;
+	private String cuotaMensualSinIVA;//Y
+	private String cuotaMensualConIVA;//Z
 	private String titulo;
 	private String subtitulo;
-	private String precioFinanciado;
+	private String precioFinanciado;//AK
 	private String meses;
 	private String tin;
 	private String tae;
-	private String ultimaCuotaSinIVA;
-	private String ultimaCuotaConIVA;
-	private String interesesSinIVA;
-	private String interesesConIVA;
-	private String costeTotalSinIVA;
-	private String costeTotalConIVA;
-	private String fechaValidezOferta;
-	private String precioAlContado;
-	private String fianza;
+	private String ultimaCuotaSinIVA;//AI
+	private String ultimaCuotaConIVA;//AJ
+	private String interesesSinIVA;//AN
+	private String interesesConIVA;//AM
+	private String costeTotalSinIVA;//AP
+	private String costeTotalConIVA;//AO
+	private String fechaValidezOferta;//AC
+	private String precioAlContado;//AQ
+	private String fianza;//AR
+    private String consumo;//AU
+    private String primeraCuotaSinIVA; //T
+    private String primeraCuotaConIVA; //AV
 	
 	public Legal() {
 	    
 	}
 
+
+
 	public Legal(String numerolegal, String cuotaMensualSinIVA, String cuotaMensualConIVA, String titulo,
 			String subtitulo, String precioFinanciado, String meses, String tin, String tae, String ultimaCuotaSinIVA,
 			String ultimaCuotaConIVA, String interesesSinIVA, String interesesConIVA, String costeTotalSinIVA,
-			String costeTotalConIVA, String fechaValidezOferta, String precioAlContado, String fianza) {
+			String costeTotalConIVA, String fechaValidezOferta, String precioAlContado, String fianza,
+			String primeraCuotaSinIVA, String consumo, String primeraCuotaConIVA) {
 		super();
 		this.numerolegal = numerolegal;
 		this.cuotaMensualSinIVA = cuotaMensualSinIVA;
@@ -48,7 +54,12 @@ public class Legal {
 		this.fechaValidezOferta = fechaValidezOferta;
 		this.precioAlContado = precioAlContado;
 		this.fianza = fianza;
+		this.primeraCuotaSinIVA = primeraCuotaSinIVA;
+		this.primeraCuotaConIVA = primeraCuotaConIVA;
+		this.consumo = consumo;
 	}
+
+
 
 	/**
 	 * @return the numerolegal
@@ -300,6 +311,56 @@ public class Legal {
 	 */
 	public void setFianza(String fianza) {
 		this.fianza = fianza;
+	}
+
+	/**
+	 * @return the consumo
+	 */
+	public String getConsumo() {
+		return consumo;
+	}
+
+	/**
+	 * @param consumo the consumo to set
+	 */
+	public void setConsumo(String consumo) {
+		this.consumo = consumo;
+	}
+
+
+
+	/**
+	 * @return the primeraCuotaSinIVA
+	 */
+	public String getPrimeraCuotaSinIVA() {
+		return primeraCuotaSinIVA;
+	}
+
+
+
+	/**
+	 * @param primeraCuotaSinIVA the primeraCuotaSinIVA to set
+	 */
+	public void setPrimeraCuotaSinIVA(String primeraCuotaSinIVA) {
+		this.primeraCuotaSinIVA = primeraCuotaSinIVA;
+	}
+
+
+
+	/**
+	 * @return the primeraCuotaConIVA
+	 */
+	public String getPrimeraCuotaConIVA() {
+		return primeraCuotaConIVA;
+	}
+
+
+
+	/**
+	 * @param primeraCuotaConIVA the primeraCuotaConIVA to set
+	 */
+	public void setPrimeraCuotaConIVA(String primeraCuotaConIVA) {
+		this.primeraCuotaConIVA = primeraCuotaConIVA;
 	}
 
 }
