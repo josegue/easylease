@@ -11,9 +11,16 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import org.apache.commons.net.ftp.FTP;
@@ -146,7 +153,7 @@ public class CsvService {
                     
 					nombreArchivo = nombreArchivo.substring(0, nombreArchivo.indexOf("_"));
 					nombreArchivo = nombreArchivo.toLowerCase();
-                    saveJson(nombreArchivo, resp);
+                    saveJson(nombreArchivo, productos, legals);
                     System.out.println("CsvService.cargarArchivosLocales() Procesado el fichero: " + nombreArchivo);
                 }
             }
@@ -201,7 +208,7 @@ public class CsvService {
 		legal.setInteresesConIVA(formatoNumero(cleanData(getCellValue(row.getCell(38)))));//AM
 		legal.setCosteTotalSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(41)))));//AP
 		legal.setCosteTotalConIVA(formatoNumero(cleanData(getCellValue(row.getCell(40)))));//AO
-		legal.setFechaValidezOferta(cleanData(getCellValue(row.getCell(45))));//AC
+		legal.setFechaValidezOferta(formatoFecha(cleanData(getCellValue(row.getCell(45)))));//AC
 		legal.setPrecioAlContado(formatoNumero(cleanData(getCellValue(row.getCell(42)))));//AQ
 		legal.setFianza(formatoNumero(cleanData(getCellValue(row.getCell(43)))));//AR
 	    legal.setConsumo(cleanData(getCellValue(row.getCell(46))));//AU
@@ -212,6 +219,24 @@ public class CsvService {
 		
 	}
 	
+	private String formatoFecha(String data) {
+		String fechaFormateada = data;
+        // Parsear la fecha usando SimpleDateFormat
+        SimpleDateFormat formatoEntrada = new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.ENGLISH);
+        Date fecha;
+        try {
+            fecha = formatoEntrada.parse(data);
+            // Convertir a LocalDateTime
+            LocalDateTime localDateTime = fecha.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime();
+
+            // Formatear con DateTimeFormatter
+            DateTimeFormatter formatoSalida = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            fechaFormateada = localDateTime.format(formatoSalida);
+        } catch (Exception e) {
+        }
+		return fechaFormateada;
+	}
+
 	private static String cleanData (String data) {
 		if(data == null) {
 			return "";
@@ -283,6 +308,8 @@ public class CsvService {
 	}
 
 	public Map<String, InputStream> descargarArchivos() throws IOException {
+		DateTimeFormatter formato = DateTimeFormatter.ofPattern("ddMMyyyyHHmmss");
+		String log = new String("Proceso ejecutado: " + LocalDateTime.now().format(formato));
 		ObjectMapper objectMapper = new ObjectMapper();
 		String server = "easylease-stl.com";
 		int port = 21;
@@ -317,6 +344,7 @@ public class CsvService {
 					boolean success = ftpClient.retrieveFile(nombreArchivo, outputStream);
 					if (success) {
 						System.out.println("Procesando el fichero: " + nombreArchivo);
+						log = "\n" + "Procesando el fichero: " + nombreArchivo;
 	            		Respuesta resp = new Respuesta();
 	            		List<Product> productos = new ArrayList<Product>();
 	            		List<Legal> legals = new ArrayList<Legal>();
@@ -339,6 +367,7 @@ public class CsvService {
 								i++;
 							}
 						} catch (IOException e) {
+							log = "\n" + "Error: " + e.toString();
 							e.printStackTrace();
 						}
 	                    
@@ -349,17 +378,25 @@ public class CsvService {
 						nombreArchivo = nombreArchivo.toLowerCase();
 	                    
 			            // Convertir el VO a JSON
-			            String jsonContent = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(resp);
-			            InputStream inputStream = new ByteArrayInputStream(jsonContent.getBytes());
+						String jsonContentProducts = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(productos);
+						jsonContentProducts = jsonContentProducts.replaceAll("\\[","const product = \\[");
+						jsonContentProducts = jsonContentProducts.replaceAll("\\]","\\];");
+						String jsonContentLegals = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(legals);
+						jsonContentLegals = jsonContentLegals.replaceAll("\\[","const legalelist = \\[");
+						jsonContentLegals = jsonContentLegals.replaceAll("\\]","\\];");
+						String result = jsonContentProducts + "\n" + jsonContentLegals;
 
+						InputStream inputStream = new ByteArrayInputStream(result.getBytes());
 
 			            // Subir el archivo JSON al directorio FTP
-			            String remoteFilePath = "/public_html/" + nombreArchivo + "_PRE/js/productPRE.js";
+			            String remoteFilePath = "/public_html/" + nombreArchivo + "_PRE/js/product.js";
 			            success = ftpClient.storeFile(remoteFilePath, inputStream);
 
 			            if (success) {
+			            	log = "\n" + "Archivo JSON guardado exitosamente en: " + remoteFilePath;
 			                System.out.println("Archivo JSON guardado exitosamente en: " + remoteFilePath);
 			            } else {
+			            	log = "\n" + "Error al guardar el archivo JSON." + remoteFilePath;
 			                System.out.println("Error al guardar el archivo JSON.");
 			            }
 
@@ -367,8 +404,20 @@ public class CsvService {
 	                    
 	                    System.out.println("CsvService.cargarArchivosLocales() Procesado el fichero: " + nombreArchivo);
 					} else {
+						log = "\n" + "No se pudo descargar el archivo: " + nombreArchivo;
 						System.err.println("No se pudo descargar el archivo: " + nombreArchivo);
 					}
+					InputStream inputStreamLog = new ByteArrayInputStream(log.getBytes());
+
+		            // Subir el archivo JSON al directorio FTP
+		            String remoteFilePathLog = "/public_html/" + nombreArchivo + "_PRE/js/" + nombreArchivo + LocalDateTime.now().format(formato) + ".log";
+		            boolean successFtp = ftpClient.storeFile(remoteFilePathLog, inputStreamLog);
+		            if (successFtp) {
+		                System.out.println("Archivo LOG guardado exitosamente en: " + nombreArchivo);
+		            } else {
+		                System.out.println("Error al guardar el archivo LOG." + nombreArchivo);
+		            }
+		            inputStreamLog.close();		            
 				}
 			}
 
@@ -397,13 +446,22 @@ public class CsvService {
 		return true;
 	}
 
-	public boolean saveJson(String name, Respuesta resp) {
+	public boolean saveJson(String name, List<Product> productos, List<Legal> legals) {
 		ObjectMapper objectMapper = new ObjectMapper();
 
 		try {
 			// Convertir el VO a JSON y guardarlo en el archivo
 //			objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File("C://ficheros//" + name + "//js//products.js"), resp);
-			objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File("C://ficheros//js//products" + name + ".js"), resp);
+//			objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File("C://ficheros//js//products" + name + ".js"), resp);
+			String jsonContentProducts = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(productos);
+			jsonContentProducts = jsonContentProducts.replaceAll("\\[","const product = \\[");
+			jsonContentProducts = jsonContentProducts.replaceAll("\\]","\\];");
+			String jsonContentLegals = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(legals);
+			jsonContentLegals = jsonContentLegals.replaceAll("\\[","const legalelist = \\[");
+			jsonContentLegals = jsonContentLegals.replaceAll("\\]","\\];");
+			String result = jsonContentProducts + "\n" + jsonContentLegals;
+			Files.write(Paths.get("C://ficheros//js//products" + name + ".js"), result.getBytes());
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
