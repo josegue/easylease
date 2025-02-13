@@ -26,8 +26,8 @@ public class CatalogoController {
 		    //guardo en el ftp la respuesta en formato json
 		
 		try {
-//			Map<String, InputStream> datos = csvService.descargarArchivos();
-			Map<String, InputStream> datos = csvService.cargarArchivosLocales();
+			Map<String, InputStream> datos = csvService.descargarArchivos();
+//			Map<String, InputStream> datos = csvService.cargarArchivosLocales();
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
