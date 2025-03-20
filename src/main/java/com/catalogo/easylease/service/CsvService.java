@@ -12,6 +12,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
+import java.text.Normalizer;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -172,7 +173,7 @@ public class CsvService {
 		}
 		
 		producto.setQuery("coches");
-		producto.setImagen("https://easylease-stl.com/products/" + cleanData(getCellValue(row.getCell(21)).replace(" ", "_") + "/" + cleanData(formatoNumeroSinDecimales(getCellValue(row.getCell(22))).replace(" ", "_") + ".jpg")));
+		producto.setImagen("https://easylease-stl.com/products/" + cleanAcentos(cleanData(getCellValue(row.getCell(21))).replace(" ", "_") + "/" + cleanAcentos(cleanData(formatoNumeroSinDecimales(getCellValue(row.getCell(22)))).replace(" ", "_") + ".jpg")));
 		producto.setTitulo(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(22)))));
 		producto.setAlt(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(22)))));
 	    producto.setSubtitulo(cleanData(getCellValue(row.getCell(23))));
@@ -237,6 +238,11 @@ public class CsvService {
 		return fechaFormateada;
 	}
 
+	private static String cleanAcentos(String texto) {
+        String textoNormalizado = Normalizer.normalize(texto, Normalizer.Form.NFD);
+        return textoNormalizado.replaceAll("\\p{M}", "");
+	}
+	
 	private static String cleanData (String data) {
 		if(data == null) {
 			return "";
