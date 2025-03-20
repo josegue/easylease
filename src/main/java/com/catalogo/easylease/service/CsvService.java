@@ -11,12 +11,12 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -258,7 +258,11 @@ public class CsvService {
         String numeroFormateado = data;
 		try {
 			numero = Double.parseDouble(data);
-			DecimalFormat formato = new DecimalFormat("#,###.00");
+	        DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.getDefault());
+	        symbols.setGroupingSeparator('.'); // Separador de miles: punto
+	        symbols.setDecimalSeparator(',');  // Separador de decimales: coma
+
+	        DecimalFormat formato = new DecimalFormat("#,###.00", symbols);
 	        numeroFormateado = formato.format(numero);
 		} catch (NumberFormatException e) {
 		}
