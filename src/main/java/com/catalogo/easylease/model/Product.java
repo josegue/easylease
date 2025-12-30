@@ -4,46 +4,49 @@ public class Product {
 
     private String query;//marca
     private String imagen;
-    private String titulo;//W
+//    private String titulo;//W
     private String alt;//W
-    private String subtitulo;//X
-    private String precio;//Y
+    private String acabado;//X
+    private String cuotaMensualSinIVA;//Y
     private String numerolegal;
     private String tin;//AG
     private String tae;//AH
-    private String meses;//AA
-    private String km;//AC
-    private String ultimacuota;//AI
+//    private String meses;//AA
+//    private String km;//AC
+    private String ultimaCuotaSinIVA;//AI
     private String environmental;
     private String environmentalalt;
-    private String primeraCuotaSinIVA; //AV
-
+//    private String primeraCuotaSinIVA; //AV
+    private String entrada; //M
+    private String fianza;//AR
 
 
 	public Product() {
 		super();
 	}
-	public Product(String query, String imagen, String titulo, String alt, String subtitulo, String precio,
-			String numerolegal, String tin, String tae, String meses, String km, String ultimacuota,
-			String environmental, String environmentalalt, String primeraCuotaSinIVA) {
+	public Product(String query, String imagen, String titulo, String alt, String acabado, String cuotaMensualSinIVA,
+			String numerolegal, String tin, String tae, String meses, String km, String ultimaCuotaSinIVA,
+			String environmental, String environmentalalt, String primeraCuotaSinIVA, String entrada, String fianza) {
 		super();
 		this.query = query;
 		this.imagen = imagen;
-		this.titulo = titulo;
+//		this.titulo = titulo;
 		this.alt = alt;
-		this.subtitulo = subtitulo;
-		if(precio != null) {
-			this.precio = precio.substring(0,precio.indexOf(','));	
+		this.acabado = acabado;
+		if(cuotaMensualSinIVA != null) {
+			this.cuotaMensualSinIVA = cuotaMensualSinIVA.substring(0,cuotaMensualSinIVA.indexOf(','));	
 		}
 		this.numerolegal = numerolegal;
 		this.tin = tin;
 		this.tae = tae;
-		this.meses = meses;
-		this.km = km;
-		this.ultimacuota = ultimacuota;
+//		this.meses = meses;
+//		this.km = km;
+		this.ultimaCuotaSinIVA = ultimaCuotaSinIVA;
 		this.environmental = environmental;
 		this.environmentalalt = environmentalalt;
-		this.primeraCuotaSinIVA = primeraCuotaSinIVA;
+//		this.primeraCuotaSinIVA = primeraCuotaSinIVA;
+		this.entrada = entrada;
+		this.fianza = fianza;
 	}
 	/**
 	 * @return the query
@@ -72,15 +75,15 @@ public class Product {
 	/**
 	 * @return the titulo
 	 */
-	public String getTitulo() {
-		return titulo;
-	}
-	/**
-	 * @param titulo the titulo to set
-	 */
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
+//	public String getTitulo() {
+//		return titulo;
+//	}
+//	/**
+//	 * @param titulo the titulo to set
+//	 */
+//	public void setTitulo(String titulo) {
+//		this.titulo = titulo;
+//	}
 	/**
 	 * @return the alt
 	 */
@@ -96,26 +99,27 @@ public class Product {
 	/**
 	 * @return the subtitulo
 	 */
-	public String getSubtitulo() {
-		return subtitulo;
+	public String getAcabado() {
+		return acabado;
 	}
 	/**
 	 * @param subtitulo the subtitulo to set
 	 */
-	public void setSubtitulo(String subtitulo) {
-		this.subtitulo = subtitulo;
+	public void setAcabado(String acabado) {
+		this.acabado = acabado;
+	}
+
+	/**
+	 * @return the cuotaMensualSinIVA
+	 */
+	public String getCuotaMensualSinIVA() {
+		return cuotaMensualSinIVA;
 	}
 	/**
-	 * @return the precio
+	 * @param cuotaMensualSinIVA the cuotaMensualSinIVA to set
 	 */
-	public String getPrecio() {
-		return precio;
-	}
-	/**
-	 * @param precio the precio to set
-	 */
-	public void setPrecio(String precio) {
-		this.precio = precio;
+	public void setCuotaMensualSinIVA(String cuotaMensualSinIVA) {
+		this.cuotaMensualSinIVA = cuotaMensualSinIVA;
 	}
 	/**
 	 * @return the numerolegal
@@ -153,41 +157,42 @@ public class Product {
 	public void setTae(String tae) {
 		this.tae = tae;
 	}
+//	/**
+//	 * @return the meses
+//	 */
+//	public String getMeses() {
+//		return meses;
+//	}
+//	/**
+//	 * @param meses the meses to set
+//	 */
+//	public void setMeses(String meses) {
+//		this.meses = meses;
+//	}
+//	/**
+//	 * @return the kmV
+//	 */
+//	public String getKm() {
+//		return km;
+//	}
+//	/**
+//	 * @param kmV the kmV to set
+//	 */
+//	public void setKm(String km) {
+//		this.km = km;
+//	}
+
 	/**
-	 * @return the meses
+	 * @return the ultimaCuotaSinIVA
 	 */
-	public String getMeses() {
-		return meses;
+	public String getUltimaCuotaSinIVA() {
+		return ultimaCuotaSinIVA;
 	}
 	/**
-	 * @param meses the meses to set
+	 * @param ultimaCuotaSinIVA the ultimaCuotaSinIVA to set
 	 */
-	public void setMeses(String meses) {
-		this.meses = meses;
-	}
-	/**
-	 * @return the kmV
-	 */
-	public String getKm() {
-		return km;
-	}
-	/**
-	 * @param kmV the kmV to set
-	 */
-	public void setKm(String km) {
-		this.km = km;
-	}
-	/**
-	 * @return the ultimacuota
-	 */
-	public String getUltimacuota() {
-		return ultimacuota;
-	}
-	/**
-	 * @param ultimacuota the ultimacuota to set
-	 */
-	public void setUltimacuota(String ultimacuota) {
-		this.ultimacuota = ultimacuota;
+	public void setUltimaCuotaSinIVA(String ultimaCuotaSinIVA) {
+		this.ultimaCuotaSinIVA = ultimaCuotaSinIVA;
 	}
 	/**
 	 * @return the environmental
@@ -213,17 +218,41 @@ public class Product {
 	public void setEnvironmentalalt(String environmentalalt) {
 		this.environmentalalt = environmentalalt;
 	}
+//	/**
+//	 * @return the primeraCuotaConIVA
+//	 */
+//	public String getPrimeraCuotaSinIVA() {
+//		return primeraCuotaSinIVA;
+//	}
+//	/**
+//	 * @param primeraCuotaConIVA the primeraCuotaConIVA to set
+//	 */
+//	public void setPrimeraCuotaSinIVA(String primeraCuotaSinIVA) {
+//		this.primeraCuotaSinIVA = primeraCuotaSinIVA;
+//	}
 	/**
-	 * @return the primeraCuotaConIVA
+	 * @return the entrada
 	 */
-	public String getPrimeraCuotaSinIVA() {
-		return primeraCuotaSinIVA;
+	public String getEntrada() {
+		return entrada;
 	}
 	/**
-	 * @param primeraCuotaConIVA the primeraCuotaConIVA to set
+	 * @param entrada the entrada to set
 	 */
-	public void setPrimeraCuotaSinIVA(String primeraCuotaSinIVA) {
-		this.primeraCuotaSinIVA = primeraCuotaSinIVA;
+	public void setEntrada(String entrada) {
+		this.entrada = entrada;
+	}
+	/**
+	 * @return the fianza
+	 */
+	public String getFianza() {
+		return fianza;
+	}
+	/**
+	 * @param fianza the fianza to set
+	 */
+	public void setFianza(String fianza) {
+		this.fianza = fianza;
 	}
 	
 }

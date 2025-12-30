@@ -28,8 +28,11 @@ import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.CellValue;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
+import org.apache.poi.ss.usermodel.Name;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -46,6 +49,7 @@ public class CsvService {
 
 	String line = "";
 	String splitBy = ";";
+	static FormulaEvaluator evaluator = null;
 
 	public Map<String, InputStream> listarFicheros() {
 
@@ -174,20 +178,21 @@ public class CsvService {
 		
 		producto.setQuery("coches");
 		producto.setImagen("https://easylease-stl.com/products/" + cleanAcentos(cleanData(getCellValue(row.getCell(21))).replace(" ", "_") + "/" + cleanAcentos(cleanData(formatoNumeroSinDecimales(getCellValue(row.getCell(22)))).replace(" ", "_") + ".jpg")));
-		producto.setTitulo(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(22)))));
+//		producto.setTitulo(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(22)))));
 		producto.setAlt(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(22)))));
-	    producto.setSubtitulo(cleanData(getCellValue(row.getCell(23))));
-	    producto.setPrecio(formatoNumero(cleanData(getCellValue(row.getCell(24)))));
+	    producto.setAcabado(cleanData(getCellValue(row.getCell(23))));
+	    producto.setCuotaMensualSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(24)))));
 	    producto.setNumerolegal(numeroLegal);
 	    producto.setTin(formatoNumeroPorcentaje(cleanData(getCellValue(row.getCell(32)))));
 	    producto.setTae(formatoNumeroPorcentaje(cleanData(getCellValue(row.getCell(33)))));
-	    producto.setMeses(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(26)))));
-	    producto.setKm(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(28)))));
-	    producto.setUltimacuota(formatoNumero(cleanData(getCellValue(row.getCell(34)))));
+//	    producto.setMeses(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(26)))));
+//	    producto.setKm(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(28)))));
+	    producto.setUltimaCuotaSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(34)))));
 	    producto.setEnvironmental("https://easylease-stl.com/labels/label-nolabel.png");
 	    producto.setEnvironmentalalt("");
-	    producto.setPrimeraCuotaSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(47)))));
-		
+//	    producto.setPrimeraCuotaSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(47)))));
+		producto.setEntrada(formatoNumero(cleanData(getCellValue(row.getCell(12)))));//M
+		producto.setFianza(formatoNumero(cleanData(getCellValue(row.getCell(43)))));//AR
 		return producto;
 	}
 	
@@ -197,9 +202,10 @@ public class CsvService {
 		legal.setNumerolegal(numeroLegal);
 		legal.setCuotaMensualSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(24)))));//Y
 		legal.setCuotaMensualConIVA(formatoNumero(cleanData(getCellValue(row.getCell(25)))));//Z
-		legal.setTitulo(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(22)))));
-		legal.setSubtitulo(cleanData(getCellValue(row.getCell(23))));
-		legal.setPrecioFinanciado(formatoNumero(cleanData(getCellValue(row.getCell(36)))));//AK
+//		legal.setTitulo(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(22)))));
+//		legal.setSubtitulo(cleanData(getCellValue(row.getCell(23))));
+		legal.setPrecioFinanciadoConIVA(formatoNumero(cleanData(getCellValue(row.getCell(36)))));//AK
+		legal.setPrecioFinanciadoSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(37)))));//AL
 		legal.setMeses(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(26)))));
 		legal.setTin(formatoNumeroPorcentaje(cleanData(getCellValue(row.getCell(32)))));
 		legal.setTae(formatoNumeroPorcentaje(cleanData(getCellValue(row.getCell(33)))));
@@ -209,17 +215,47 @@ public class CsvService {
 		legal.setInteresesConIVA(formatoNumero(cleanData(getCellValue(row.getCell(38)))));//AM
 		legal.setCosteTotalSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(41)))));//AP
 		legal.setCosteTotalConIVA(formatoNumero(cleanData(getCellValue(row.getCell(40)))));//AO
-		legal.setFechaValidezOferta(formatoFecha(cleanData(getCellValue(row.getCell(45)))));//AC
-		legal.setPrecioAlContado(formatoNumero(cleanData(getCellValue(row.getCell(42)))));//AQ
+		legal.setFechaValidez1(formatoFecha(cleanData(getCellValue(row.getCell(45)))));//AT
+//		legal.setPrecioAlContado(formatoNumero(cleanData(getCellValue(row.getCell(42)))));//AQ
 		legal.setFianza(formatoNumero(cleanData(getCellValue(row.getCell(43)))));//AR
 	    legal.setConsumo(cleanData(getCellValue(row.getCell(46))));//AU
-	    legal.setPrimeraCuotaSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(47))))); //T
-	    legal.setPrimeraCuotaConIVA(formatoNumero(cleanData(getCellValue(row.getCell(19))))); //AV
-	    
+//	    legal.setPrimeraCuotaSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(47))))); //T
+//	    legal.setPrimeraCuotaConIVA(formatoNumero(cleanData(getCellValue(row.getCell(19))))); //AV
+	    legal.setWebMarca(getWebMarca(cleanAcentos(cleanData(getCellValue(row.getCell(21))).replace(" ", "_"))));
 	    return legal;
 		
 	}
 	
+	private String getWebMarca(String marca) {
+
+	    switch (marca) {
+	        case "ABARTH":
+	            return "https://www.abarth.es";
+	        case "ALFA_ROMEO":
+	            return "https://www.alfaromeo.es";
+	        case "CITROEN":
+	            return "https://www.citroen.es";
+	        case "DS":
+	            return "https://www.dsautomobiles.es";
+	        case "FIAT":
+	            return "https://www.fiat.es";
+	        case "FIAT_PRO":
+	            return "https://www.fiatprofessional.com/es";
+	        case "JEEP":
+	            return "https://www.jeep.es";
+	        case "LANCIA":
+	            return "https://www.lancia.es";
+	        case "LEAPMOTOR":
+	            return "https://www.leapmotor.net";
+	        case "OPEL":
+	            return "https://www.opel.es";
+	        case "PEUGEOT":
+	            return "https://www.peugeot.es";
+	        default:
+	            return("Marca no soportada: " + marca);
+	    }
+	}
+
 	private String formatoFecha(String data) {
 		String fechaFormateada = data;
         // Parsear la fecha usando SimpleDateFormat
@@ -325,10 +361,9 @@ public class CsvService {
 		int port = 21;
 		String user = "jose@easylease-stl.com";
 		String password = "uV8xzaKXShMA4e94eS3d";
-		String remoteDir = "/public_ftp/incoming";
+		String remoteDir = "/public_ftp/csv";
 		Map<String, InputStream> archivos = new HashMap<>();
 		FTPClient ftpClient = new FTPClient();
-
 		try {
 			// Conexión al servidor FTP
 			ftpClient.setConnectTimeout(5000); // Evitar bloqueos largos
@@ -361,6 +396,14 @@ public class CsvService {
 						try (InputStream is =  ftpClient.retrieveFileStream(nombreArchivo);
 								Workbook workbook = new XSSFWorkbook(is)) {
 							ftpClient.completePendingCommand(); // Importante para finalizar correctamente la transferencia
+							evaluator = workbook.getCreationHelper().createFormulaEvaluator();
+							evaluator.evaluateAll();
+					        int numSheets = workbook.getNumberOfSheets();
+					        System.out.println("Número de hojas: " + numSheets);
+
+					        for (int i = 0; i < numSheets; i++) {
+					            System.out.println("Hoja " + i + ": " + workbook.getSheetName(i));
+					        }
 							Sheet sheet = workbook.getSheetAt(4); // Primer hoja
 							Integer i = 1;
 							for (Row row : sheet) {
@@ -399,7 +442,7 @@ public class CsvService {
 						InputStream inputStream = new ByteArrayInputStream(result.getBytes());
 
 			            // Subir el archivo JSON al directorio FTP
-			            String remoteFilePath = "/public_html/" + nombreArchivo + "_PRE/js/products.js";
+			            String remoteFilePath = "//public_ftp/csv/" + nombreArchivo + "products.js";
 			            success = ftpClient.storeFile(remoteFilePath, inputStream);
 
 			            if (success) {
@@ -498,11 +541,14 @@ public class CsvService {
                 return String.valueOf(cell.getBooleanCellValue());
             case FORMULA:
                 // Evalúa la fórmula y devuelve el resultado
-                FormulaEvaluator evaluator = cell.getSheet().getWorkbook().getCreationHelper().createFormulaEvaluator();
+                evaluator = cell.getSheet().getWorkbook().getCreationHelper().createFormulaEvaluator();
                 return getCellValue(evaluator.evaluateInCell(cell));
             case BLANK:
                 return "";
             default:
+//            	System.out.println("CsvService.getCellValue() Contenido de la celda " + cell.getCellFormula());
+            	FormulaEvaluator evaluator1 = cell.getSheet().getWorkbook().getCreationHelper().createFormulaEvaluator();
+            	CellValue value = evaluator1.evaluate(cell);
                 return "Tipo de celda no manejado";
         }
     }
