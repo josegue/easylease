@@ -393,7 +393,17 @@ public class CsvService {
 						try (InputStream is =  ftpClient.retrieveFileStream(nombreArchivo);
 								Workbook workbook = new XSSFWorkbook(is)) {
 							ftpClient.completePendingCommand(); // Importante para finalizar correctamente la transferencia
-							Sheet sheet = workbook.getSheetAt(4); // Primer hoja
+					        int numSheets = workbook.getNumberOfSheets();
+					        System.out.println("Número de hojas: " + numSheets);
+					        int j = 0;
+					        for (j = 0; j < numSheets; j++) {
+					            System.out.println("Hoja " + j + ": " + workbook.getSheetName(j));
+					            if (workbook.getSheetName(j).equalsIgnoreCase("Flyer")) {
+					            	break;
+					            }
+					        }
+					        System.out.println("Hoja " + j);
+							Sheet sheet = workbook.getSheetAt(j); // Primer hoja
 							Integer i = 1;
 							for (Row row : sheet) {
 								if (row.getRowNum() == 0) continue; // Saltar cabecera
