@@ -28,11 +28,8 @@ import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTPFile;
 import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.CellType;
-import org.apache.poi.ss.usermodel.CellValue;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
-import org.apache.poi.ss.usermodel.Name;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -49,7 +46,6 @@ public class CsvService {
 
 	String line = "";
 	String splitBy = ";";
-	static FormulaEvaluator evaluator = null;
 
 	public Map<String, InputStream> listarFicheros() {
 
@@ -255,7 +251,7 @@ public class CsvService {
 	            return("Marca no soportada: " + marca);
 	    }
 	}
-
+	
 	private String formatoFecha(String data) {
 		String fechaFormateada = data;
         // Parsear la fecha usando SimpleDateFormat
@@ -361,9 +357,10 @@ public class CsvService {
 		int port = 21;
 		String user = "jose@easylease-stl.com";
 		String password = "uV8xzaKXShMA4e94eS3d";
-		String remoteDir = "/public_ftp/csv";
+		String remoteDir = "/public_ftp/incoming";
 		Map<String, InputStream> archivos = new HashMap<>();
 		FTPClient ftpClient = new FTPClient();
+
 		try {
 			// Conexión al servidor FTP
 			ftpClient.setConnectTimeout(5000); // Evitar bloqueos largos
@@ -396,14 +393,6 @@ public class CsvService {
 						try (InputStream is =  ftpClient.retrieveFileStream(nombreArchivo);
 								Workbook workbook = new XSSFWorkbook(is)) {
 							ftpClient.completePendingCommand(); // Importante para finalizar correctamente la transferencia
-							evaluator = workbook.getCreationHelper().createFormulaEvaluator();
-							evaluator.evaluateAll();
-					        int numSheets = workbook.getNumberOfSheets();
-					        System.out.println("Número de hojas: " + numSheets);
-
-					        for (int i = 0; i < numSheets; i++) {
-					            System.out.println("Hoja " + i + ": " + workbook.getSheetName(i));
-					        }
 							Sheet sheet = workbook.getSheetAt(4); // Primer hoja
 							Integer i = 1;
 							for (Row row : sheet) {
@@ -442,7 +431,7 @@ public class CsvService {
 						InputStream inputStream = new ByteArrayInputStream(result.getBytes());
 
 			            // Subir el archivo JSON al directorio FTP
-			            String remoteFilePath = "//public_ftp/csv/" + nombreArchivo + "products.js";
+			            String remoteFilePath = "/public_html/" + nombreArchivo + "_PRE/js/products.js";
 			            success = ftpClient.storeFile(remoteFilePath, inputStream);
 
 			            if (success) {
@@ -541,14 +530,11 @@ public class CsvService {
                 return String.valueOf(cell.getBooleanCellValue());
             case FORMULA:
                 // Evalúa la fórmula y devuelve el resultado
-                evaluator = cell.getSheet().getWorkbook().getCreationHelper().createFormulaEvaluator();
+                FormulaEvaluator evaluator = cell.getSheet().getWorkbook().getCreationHelper().createFormulaEvaluator();
                 return getCellValue(evaluator.evaluateInCell(cell));
             case BLANK:
                 return "";
             default:
-//            	System.out.println("CsvService.getCellValue() Contenido de la celda " + cell.getCellFormula());
-            	FormulaEvaluator evaluator1 = cell.getSheet().getWorkbook().getCreationHelper().createFormulaEvaluator();
-            	CellValue value = evaluator1.evaluate(cell);
                 return "Tipo de celda no manejado";
         }
     }
