@@ -174,7 +174,7 @@ public class CsvService {
 		
 		producto.setQuery("coches");
 		producto.setImagen("https://easylease-stl.com/products/" + cleanAcentos(cleanData(getCellValue(row.getCell(21))).replace(" ", "_") + "/" + cleanAcentos(cleanData(formatoNumeroSinDecimales(getCellValue(row.getCell(22)))).replace(" ", "_") + ".jpg")));
-//		producto.setTitulo(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(22)))));
+		producto.setModelo(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(22)))));
 		producto.setAlt(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(22)))));
 	    producto.setAcabado(cleanData(getCellValue(row.getCell(23))));
 	    producto.setCuotaMensualSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(24)))));
@@ -187,7 +187,7 @@ public class CsvService {
 	    producto.setEnvironmental("https://easylease-stl.com/labels/label-nolabel.png");
 	    producto.setEnvironmentalalt("");
 //	    producto.setPrimeraCuotaSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(47)))));
-		producto.setEntrada(formatoNumero(cleanData(getCellValue(row.getCell(12)))));//M
+		producto.setEntradaSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(12)))));//M
 		producto.setFianza(formatoNumero(cleanData(getCellValue(row.getCell(43)))));//AR
 		return producto;
 	}
@@ -198,7 +198,7 @@ public class CsvService {
 		legal.setNumerolegal(numeroLegal);
 		legal.setCuotaMensualSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(24)))));//Y
 		legal.setCuotaMensualConIVA(formatoNumero(cleanData(getCellValue(row.getCell(25)))));//Z
-//		legal.setTitulo(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(22)))));
+		legal.setModelo(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(22)))));
 //		legal.setSubtitulo(cleanData(getCellValue(row.getCell(23))));
 		legal.setPrecioFinanciadoConIVA(formatoNumero(cleanData(getCellValue(row.getCell(36)))));//AK
 		legal.setPrecioFinanciadoSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(37)))));//AL
@@ -217,6 +217,10 @@ public class CsvService {
 	    legal.setConsumo(cleanData(getCellValue(row.getCell(46))));//AU
 //	    legal.setPrimeraCuotaSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(47))))); //T
 //	    legal.setPrimeraCuotaConIVA(formatoNumero(cleanData(getCellValue(row.getCell(19))))); //AV
+	    legal.setEntradaSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(12)))));//M
+	    legal.setNumeroCuotas(formatoNumero(cleanData(getCellValue(row.getCell(27)))));//AB
+	    legal.setComisionAperturaSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(31)))));//AF
+	    legal.setComisionAperturaConIVA(formatoNumero(cleanData(getCellValue(row.getCell(30)))));//AE
 	    legal.setWebMarca(getWebMarca(cleanAcentos(cleanData(getCellValue(row.getCell(21))).replace(" ", "_"))));
 	    return legal;
 		

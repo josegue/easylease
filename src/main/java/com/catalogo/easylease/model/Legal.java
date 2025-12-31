@@ -5,7 +5,7 @@ public class Legal {
 	private String numerolegal;
 	private String cuotaMensualSinIVA;//Y
 	private String cuotaMensualConIVA;//Z
-//	private String titulo;
+	private String modelo;
 //	private String subtitulo;
 	private String precioFinanciadoConIVA;//AK
 	private String precioFinanciadoSinIVA;//AL
@@ -20,6 +20,13 @@ public class Legal {
 	private String costeTotalConIVA;//AO
 	private String fechaValidez1;//AC
 //	private String precioAlContado;//AQ
+	private String numeroCuotas;
+	private String comisionAperturaSinIVA;
+	private String comisionAperturaConIVA;
+	private String entradaSinIVA;
+//	private String entradaConIVA;
+
+
 	private String fianza;//AR
     private String consumo;//AU
 //    private String primeraCuotaSinIVA; //T
@@ -27,31 +34,6 @@ public class Legal {
     private String webMarca;
 	public Legal() {
 	    
-	}
-	public Legal(String numerolegal, String cuotaMensualSinIVA, String cuotaMensualConIVA,
-			String precioFinanciadoConIVA, String precioFinanciadoSinIVA, String meses, String tin, String tae,
-			String ultimaCuotaSinIVA, String ultimaCuotaConIVA, String interesesSinIVA, String interesesConIVA,
-			String costeTotalSinIVA, String costeTotalConIVA, String fechaValidez1, String fianza, String consumo,
-			String webMarca) {
-		super();
-		this.numerolegal = numerolegal;
-		this.cuotaMensualSinIVA = cuotaMensualSinIVA;
-		this.cuotaMensualConIVA = cuotaMensualConIVA;
-		this.precioFinanciadoConIVA = precioFinanciadoConIVA;
-		this.precioFinanciadoSinIVA = precioFinanciadoSinIVA;
-		this.meses = meses;
-		this.tin = tin;
-		this.tae = tae;
-		this.ultimaCuotaSinIVA = ultimaCuotaSinIVA;
-		this.ultimaCuotaConIVA = ultimaCuotaConIVA;
-		this.interesesSinIVA = interesesSinIVA;
-		this.interesesConIVA = interesesConIVA;
-		this.costeTotalSinIVA = costeTotalSinIVA;
-		this.costeTotalConIVA = costeTotalConIVA;
-		this.fechaValidez1 = fechaValidez1;
-		this.fianza = fianza;
-		this.consumo = consumo;
-		this.webMarca = webMarca;
 	}
 	/**
 	 * @return the numerolegal
@@ -88,6 +70,18 @@ public class Legal {
 	 */
 	public void setCuotaMensualConIVA(String cuotaMensualConIVA) {
 		this.cuotaMensualConIVA = cuotaMensualConIVA;
+	}
+	/**
+	 * @return the modelo
+	 */
+	public String getModelo() {
+		return modelo;
+	}
+	/**
+	 * @param modelo the modelo to set
+	 */
+	public void setModelo(String modelo) {
+		this.modelo = modelo;
 	}
 	/**
 	 * @return the precioFinanciadoConIVA
@@ -234,6 +228,54 @@ public class Legal {
 		this.fechaValidez1 = fechaValidez1;
 	}
 	/**
+	 * @return the numeroCuotas
+	 */
+	public String getNumeroCuotas() {
+		return numeroCuotas;
+	}
+	/**
+	 * @param numeroCuotas the numeroCuotas to set
+	 */
+	public void setNumeroCuotas(String numeroCuotas) {
+		this.numeroCuotas = numeroCuotas;
+	}
+	/**
+	 * @return the comisionAperturaSinIVA
+	 */
+	public String getComisionAperturaSinIVA() {
+		return comisionAperturaSinIVA;
+	}
+	/**
+	 * @param comisionAperturaSinIVA the comisionAperturaSinIVA to set
+	 */
+	public void setComisionAperturaSinIVA(String comisionAperturaSinIVA) {
+		this.comisionAperturaSinIVA = comisionAperturaSinIVA;
+	}
+	/**
+	 * @return the comisionAperturaConIVA
+	 */
+	public String getComisionAperturaConIVA() {
+		return comisionAperturaConIVA;
+	}
+	/**
+	 * @param comisionAperturaConIVA the comisionAperturaConIVA to set
+	 */
+	public void setComisionAperturaConIVA(String comisionAperturaConIVA) {
+		this.comisionAperturaConIVA = comisionAperturaConIVA;
+	}
+	/**
+	 * @return the entradaSinIVA
+	 */
+	public String getEntradaSinIVA() {
+		return entradaSinIVA;
+	}
+	/**
+	 * @param entradaSinIVA the entradaSinIVA to set
+	 */
+	public void setEntradaSinIVA(String entradaSinIVA) {
+		this.entradaSinIVA = entradaSinIVA;
+	}
+	/**
 	 * @return the fianza
 	 */
 	public String getFianza() {
@@ -269,5 +311,5 @@ public class Legal {
 	public void setWebMarca(String webMarca) {
 		this.webMarca = webMarca;
 	}
-
+	
 }
