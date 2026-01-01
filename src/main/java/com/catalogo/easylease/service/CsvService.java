@@ -37,8 +37,11 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.springframework.stereotype.Service;
 
 import com.catalogo.easylease.model.Legal;
+import com.catalogo.easylease.model.LegalPB;
 import com.catalogo.easylease.model.Product;
+import com.catalogo.easylease.model.ProductPB;
 import com.catalogo.easylease.model.Respuesta;
+import com.catalogo.easylease.model.RespuestaPB;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
@@ -191,6 +194,27 @@ public class CsvService {
 		producto.setFianza(formatoNumero(cleanData(getCellValue(row.getCell(43)))));//AR
 		return producto;
 	}
+
+	private ProductPB getProductoPB(Row row , String numeroLegal) {
+		ProductPB producto = new ProductPB();
+		if (row.getCell(1)==null || getCellValue(row.getCell(1))==null || getCellValue(row.getCell(1)).isEmpty()) {
+			return null; 
+		}
+		
+		producto.setQuery("coches");
+		producto.setImagen("https://easylease-stl.com/products/" + cleanAcentos(cleanData(getCellValue(row.getCell(21))).replace(" ", "_") + "/" + cleanAcentos(cleanData(formatoNumeroSinDecimales(getCellValue(row.getCell(22)))).replace(" ", "_") + ".jpg")));
+		producto.setModelo(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(22)))));
+		producto.setAlt(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(22)))));
+	    producto.setAcabado(cleanData(getCellValue(row.getCell(23))));
+	    producto.setNumerolegal(numeroLegal);
+	    producto.setUltimaCuotaSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(34)))));
+	    producto.setEnvironmental("https://easylease-stl.com/labels/label-nolabel.png");
+	    producto.setEnvironmentalalt("");
+		producto.setEntradaSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(12)))));//M
+		producto.setFianza(formatoNumero(cleanData(getCellValue(row.getCell(43)))));//AR
+		producto.setCuotaConPackBusiness(formatoNumero(cleanData(getCellValue(row.getCell(50)))));//AY
+		return producto;
+	}
 	
 	private Legal getLegal(Row row, String numeroLegal) {
 		Legal legal = new Legal();
@@ -223,6 +247,47 @@ public class CsvService {
 	    legal.setComisionAperturaConIVA(formatoNumero(cleanData(getCellValue(row.getCell(30)))));//AE
 	    legal.setWebMarca(getWebMarca(cleanAcentos(cleanData(getCellValue(row.getCell(21))).replace(" ", "_"))));
 	    return legal;
+		
+	}
+	
+	private LegalPB getLegalPB(Row row, String numeroLegal, String marca) {
+		LegalPB legal = new LegalPB();
+		
+		legal.setNumerolegal(numeroLegal);
+		legal.setPrecioFinanciadoConIVA(formatoNumero(cleanData(getCellValue(row.getCell(36)))));//AK
+		legal.setPrecioFinanciadoSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(37)))));//AL
+		legal.setTin(formatoNumeroPorcentaje(cleanData(getCellValue(row.getCell(32)))));
+		legal.setTae(formatoNumeroPorcentaje(cleanData(getCellValue(row.getCell(33)))));
+		legal.setUltimaCuotaSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(34)))));//AI
+		legal.setUltimaCuotaConIVA(formatoNumero(cleanData(getCellValue(row.getCell(35)))));//AJ
+		legal.setCosteTotalSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(41)))));//AP
+		legal.setCosteTotalConIVA(formatoNumero(cleanData(getCellValue(row.getCell(40)))));//AO
+		legal.setFianza(formatoNumero(cleanData(getCellValue(row.getCell(43)))));//AR
+	    legal.setEntradaSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(12)))));//M
+	    legal.setNumeroCuotas(formatoNumero(cleanData(getCellValue(row.getCell(27)))));//AB
+	    legal.setComisionAperturaSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(31)))));//AF
+	    legal.setComisionAperturaConIVA(formatoNumero(cleanData(getCellValue(row.getCell(30)))));//AE
+	    legal.setWebMarca(getWebMarca(cleanAcentos(cleanData(getCellValue(row.getCell(21))).replace(" ", "_"))));
+
+		legal.setCuotaSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(41)))));//AP
+		legal.setPlazo(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(26)))));//AA
+		legal.setKmsTotales(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(28)))));//AC
+		legal.setAcabado(cleanData(getCellValue(row.getCell(23))));//X
+		legal.setCuotaConIVA(formatoNumero(cleanData(getCellValue(row.getCell(25)))));//Z
+		legal.setTotalinteresesSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(39)))));//AN
+		legal.setTotalinteresesConIVA(formatoNumero(cleanData(getCellValue(row.getCell(38)))));//AM
+		legal.setFechaValidez2(formatoFecha(cleanData(getCellValue(row.getCell(45)))));//AT
+		legal.setPackBusiness(formatoNumero(cleanData(getCellValue(row.getCell(50)))));//AY
+		legal.setCuotaSeguroAuto(formatoNumero(cleanData(getCellValue(row.getCell(51)))));//AZ
+		legal.setCuotaGestiondeMultas(formatoNumero(cleanData(getCellValue(row.getCell(53)))));//BB
+		legal.setCuotaMantenimiento(formatoNumero(cleanData(getCellValue(row.getCell(52)))));//BA
+		legal.setDuracionMantenimiento(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(63)))));//BL
+		legal.setKmsMantenimiento(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(62)))));//BK
+		legal.setMarca(marca);
+		
+	    return legal;
+	    
+
 		
 	}
 	
@@ -306,6 +371,9 @@ public class CsvService {
 
 	        DecimalFormat formato = new DecimalFormat("#,###.00", symbols);
 	        numeroFormateado = formato.format(numero);
+	        if(numeroFormateado.equalsIgnoreCase(",00")) {
+	        	numeroFormateado="0,00";
+	        }
 		} catch (NumberFormatException e) {
 		}
 		return numeroFormateado;
@@ -357,6 +425,7 @@ public class CsvService {
 		DateTimeFormatter formato = DateTimeFormatter.ofPattern("ddMMyyyyHHmmss");
 		String log = new String("Proceso ejecutado: " + LocalDateTime.now().format(formato));
 		ObjectMapper objectMapper = new ObjectMapper();
+		ObjectMapper objectMapperPB = new ObjectMapper();
 		String server = "easylease-stl.com";
 		int port = 21;
 		String user = "jose@easylease-stl.com";
@@ -392,8 +461,11 @@ public class CsvService {
 						System.out.println("Procesando el fichero: " + nombreArchivo);
 						log = "\n" + "Procesando el fichero: " + nombreArchivo;
 	            		Respuesta resp = new Respuesta();
+	            		RespuestaPB respPB = new RespuestaPB();
 	            		List<Product> productos = new ArrayList<Product>();
 	            		List<Legal> legals = new ArrayList<Legal>();
+	            		List<ProductPB> productosPB = new ArrayList<ProductPB>();
+	            		List<LegalPB> legalsPB = new ArrayList<LegalPB>();
 						try (InputStream is =  ftpClient.retrieveFileStream(nombreArchivo);
 								Workbook workbook = new XSSFWorkbook(is)) {
 							ftpClient.completePendingCommand(); // Importante para finalizar correctamente la transferencia
@@ -407,7 +479,10 @@ public class CsvService {
 					            }
 					        }
 					        System.out.println("Hoja " + j);
-							Sheet sheet = workbook.getSheetAt(j); // Primer hoja
+							Sheet sheet = workbook.getSheetAt(j);
+		        			String marca = nombreArchivo.substring(21,nombreArchivo.indexOf(".xlsx"));
+		        			marca = marca.substring(0, nombreArchivo.indexOf("_")-1);
+		        			marca = marca.toLowerCase();
 							Integer i = 1;
 							for (Row row : sheet) {
 								if (row.getRowNum() == 0) continue; // Saltar cabecera
@@ -417,6 +492,10 @@ public class CsvService {
 								productos.add(producto);
 								Legal legal = getLegal(row,i.toString());
 								legals.add(legal);
+								LegalPB legalPB = getLegalPB(row,i.toString(),marca);
+								legalsPB.add(legalPB);
+								ProductPB productoPB = getProductoPB(row,i.toString());
+								productosPB.add(productoPB);
 								if(i==10) {
 									break;
 								}
@@ -429,10 +508,12 @@ public class CsvService {
 	                    
 	        			resp.setProduct(productos);
 	        			resp.setLegalelist(legals);
+	        			respPB.setProduct(productosPB);
+	        			respPB.setLegalelist(legalsPB);
 	        			nombreArchivo = nombreArchivo.substring(21,nombreArchivo.indexOf(".xlsx"));
 						nombreArchivo = nombreArchivo.substring(0, nombreArchivo.indexOf("_"));
 						nombreArchivo = nombreArchivo.toLowerCase();
-	                    
+						
 			            // Convertir el VO a JSON
 						String jsonContentProducts = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(productos);
 						jsonContentProducts = jsonContentProducts.replaceAll("\\[","const product = \\[");
@@ -457,6 +538,31 @@ public class CsvService {
 			            }
 
 			            inputStream.close();
+			            
+			            // Convertir el VO a JSON el PB
+						String jsonContentProductsPB = objectMapperPB.writerWithDefaultPrettyPrinter().writeValueAsString(productosPB);
+						jsonContentProductsPB = jsonContentProductsPB.replaceAll("\\[","const product = \\[");
+						jsonContentProductsPB = jsonContentProductsPB.replaceAll("\\]","\\];");
+						String jsonContentLegalsPB = objectMapperPB.writerWithDefaultPrettyPrinter().writeValueAsString(legalsPB);
+						jsonContentLegalsPB = jsonContentLegalsPB.replaceAll("\\[","const legalelist = \\[");
+						jsonContentLegalsPB = jsonContentLegalsPB.replaceAll("\\]","\\];");
+						String resultPB = jsonContentProductsPB + "\n" + jsonContentLegalsPB;
+
+						InputStream inputStreamPB = new ByteArrayInputStream(resultPB.getBytes());
+
+			            // Subir el archivo JSON al directorio FTP
+			            String remoteFilePathPB = "/public_html/" + nombreArchivo + "-packbusiness_PRE/js/products_pb.js";
+			            success = ftpClient.storeFile(remoteFilePathPB, inputStreamPB);
+
+			            if (success) {
+			            	log = "\n" + "Archivo JSON guardado exitosamente en: " + remoteFilePathPB;
+			                System.out.println("Archivo JSON guardado exitosamente en: " + remoteFilePathPB);
+			            } else {
+			            	log = "\n" + "Error al guardar el archivo JSON." + remoteFilePathPB;
+			                System.out.println("Error al guardar el archivo JSON.");
+			            }
+
+			            inputStreamPB.close();
 	                    
 	                    System.out.println("CsvService.cargarArchivosLocales() Procesado el fichero: " + nombreArchivo);
 					} else {
