@@ -551,7 +551,7 @@ public class CsvService {
 						InputStream inputStreamPB = new ByteArrayInputStream(resultPB.getBytes());
 
 			            // Subir el archivo JSON al directorio FTP
-			            String remoteFilePathPB = "/public_html/" + nombreArchivo + "-packbusiness_PRE/js/products_pb.js";
+			            String remoteFilePathPB = "/public_html/" + nombreArchivo + "-packbusiness_PRE/js/products_PB.js";
 			            success = ftpClient.storeFile(remoteFilePathPB, inputStreamPB);
 
 			            if (success) {
