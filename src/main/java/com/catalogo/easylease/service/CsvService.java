@@ -171,7 +171,7 @@ public class CsvService {
 
 	private Product getProducto(Row row , String numeroLegal) {
 		Product producto = new Product();
-		if (row.getCell(1)==null || getCellValue(row.getCell(1))==null || getCellValue(row.getCell(1)).isEmpty()) {
+		if (row.getCell(1)==null || getCellValue(row.getCell(1))==null || getCellValue(row.getCell(1)).isEmpty() || getCellValue(row.getCell(1))=="0.0") {
 			return null; 
 		}
 		
