@@ -174,7 +174,7 @@ public class CsvService {
 		if (row.getCell(1)==null || getCellValue(row.getCell(1))==null || getCellValue(row.getCell(1)).isEmpty() || getCellValue(row.getCell(1))=="0.0") {
 			return null; 
 		}
-		
+		System.out.println("CsvService.getProducto row.getCell(1): " + row.getCell(1));
 		producto.setQuery("coches");
 		producto.setImagen("https://easylease-stl.com/products/" + cleanAcentos(cleanData(getCellValue(row.getCell(21))).replace(" ", "_") + "/" + cleanAcentos(cleanData(formatoNumeroSinDecimales(getCellValue(row.getCell(22)))).replace(" ", "_") + ".jpg")));
 		producto.setModelo(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(22)))));
@@ -200,7 +200,7 @@ public class CsvService {
 		if (row.getCell(1)==null || getCellValue(row.getCell(1))==null || getCellValue(row.getCell(1)).isEmpty() || getCellValue(row.getCell(1))=="0.0") {
 			return null; 
 		}
-		
+		System.out.println("CsvService.getProductoPB row.getCell(1): " + row.getCell(1));
 		producto.setQuery("coches");
 		producto.setImagen("https://easylease-stl.com/products/" + cleanAcentos(cleanData(getCellValue(row.getCell(21))).replace(" ", "_") + "/" + cleanAcentos(cleanData(formatoNumeroSinDecimales(getCellValue(row.getCell(22)))).replace(" ", "_") + ".jpg")));
 		producto.setModelo(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(22)))));
@@ -658,4 +658,5 @@ public class CsvService {
                 return "Tipo de celda no manejado";
         }
     }
+
 }
