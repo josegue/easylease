@@ -197,7 +197,7 @@ public class CsvService {
 
 	private ProductPB getProductoPB(Row row , String numeroLegal) {
 		ProductPB producto = new ProductPB();
-		if (row.getCell(1)==null || getCellValue(row.getCell(1))==null || getCellValue(row.getCell(1)).isEmpty()) {
+		if (row.getCell(1)==null || getCellValue(row.getCell(1))==null || getCellValue(row.getCell(1)).isEmpty() || getCellValue(row.getCell(1))=="0.0") {
 			return null; 
 		}
 		
