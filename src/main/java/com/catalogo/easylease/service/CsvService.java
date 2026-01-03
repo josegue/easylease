@@ -171,7 +171,7 @@ public class CsvService {
 
 	private Product getProducto(Row row , String numeroLegal) {
 		Product producto = new Product();
-		if (row.getCell(1)==null || getCellValue(row.getCell(1))==null || getCellValue(row.getCell(1)).isEmpty() || getCellValue(row.getCell(1))=="0.0") {
+		if (row.getCell(1)==null || getCellValue(row.getCell(1))==null || getCellValue(row.getCell(1)).isEmpty() || getCellValue(row.getCell(1)).equalsIgnoreCase("0.0")) {
 			return null; 
 		}
 		System.out.println("CsvService.getProducto row.getCell(1): " + row.getCell(1));
@@ -197,7 +197,7 @@ public class CsvService {
 
 	private ProductPB getProductoPB(Row row , String numeroLegal) {
 		ProductPB producto = new ProductPB();
-		if (row.getCell(1)==null || getCellValue(row.getCell(1))==null || getCellValue(row.getCell(1)).isEmpty() || getCellValue(row.getCell(1))=="0.0") {
+		if (row.getCell(1)==null || getCellValue(row.getCell(1))==null || getCellValue(row.getCell(1)).isEmpty() || getCellValue(row.getCell(1)).equalsIgnoreCase("0.0")) {
 			return null; 
 		}
 		System.out.println("CsvService.getProductoPB row.getCell(1): " + row.getCell(1));
@@ -660,3 +660,4 @@ public class CsvService {
     }
 
 }
+
