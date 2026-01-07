@@ -171,10 +171,10 @@ public class CsvService {
 
 	private Product getProducto(Row row , String numeroLegal) {
 		Product producto = new Product();
-		if (row.getCell(1)==null || getCellValue(row.getCell(1))==null || getCellValue(row.getCell(1)).isEmpty() || getCellValue(row.getCell(1)).equalsIgnoreCase("0.0")) {
+		if (row.getCell(1)==null || getCellValue(row.getCell(1))==null || getCellValue(row.getCell(1)).isEmpty() || getCellValue(row.getCell(1))=="0.0") {
 			return null; 
 		}
-		System.out.println("CsvService.getProducto row.getCell(1): " + row.getCell(1));
+		
 		producto.setQuery("coches");
 		producto.setImagen("https://easylease-stl.com/products/" + cleanAcentos(cleanData(getCellValue(row.getCell(21))).replace(" ", "_") + "/" + cleanAcentos(cleanData(formatoNumeroSinDecimales(getCellValue(row.getCell(22)))).replace(" ", "_") + ".jpg")));
 		producto.setModelo(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(22)))));
@@ -197,10 +197,10 @@ public class CsvService {
 
 	private ProductPB getProductoPB(Row row , String numeroLegal) {
 		ProductPB producto = new ProductPB();
-		if (row.getCell(1)==null || getCellValue(row.getCell(1))==null || getCellValue(row.getCell(1)).isEmpty() || getCellValue(row.getCell(1)).equalsIgnoreCase("0.0")) {
+		if (row.getCell(1)==null || getCellValue(row.getCell(1))==null || getCellValue(row.getCell(1)).isEmpty() || getCellValue(row.getCell(1))=="0.0") {
 			return null; 
 		}
-		System.out.println("CsvService.getProductoPB row.getCell(1): " + row.getCell(1));
+		
 		producto.setQuery("coches");
 		producto.setImagen("https://easylease-stl.com/products/" + cleanAcentos(cleanData(getCellValue(row.getCell(21))).replace(" ", "_") + "/" + cleanAcentos(cleanData(formatoNumeroSinDecimales(getCellValue(row.getCell(22)))).replace(" ", "_") + ".jpg")));
 		producto.setModelo(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(22)))));
@@ -283,6 +283,7 @@ public class CsvService {
 		legal.setCuotaMantenimiento(formatoNumero(cleanData(getCellValue(row.getCell(52)))));//BA
 		legal.setDuracionMantenimiento(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(63)))));//BL
 		legal.setKmsMantenimiento(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(62)))));//BK
+		legal.setComisionApertura(formatoNumeroPorcentaje(cleanData(getCellValue(row.getCell(29)))));//AD
 		legal.setMarca(marca);
 		
 	    return legal;
@@ -658,6 +659,4 @@ public class CsvService {
                 return "Tipo de celda no manejado";
         }
     }
-
 }
-

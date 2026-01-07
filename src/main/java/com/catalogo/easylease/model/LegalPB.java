@@ -33,6 +33,7 @@ public class LegalPB {
 	private String kmsMantenimiento;
 	private String marca;
 	private String webMarca;
+	private String comisionApertura;
 	public LegalPB() {
 		super();
 	}
@@ -43,7 +44,7 @@ public class LegalPB {
 			String totalinteresesSinIVA, String totalinteresesConIVA, String costeTotalSinIVA, String costeTotalConIVA,
 			String fechaValidez2, String fianza, String packBusiness, String cuotaSeguroAuto,
 			String cuotaGestiondeMultas, String cuotaMantenimiento, String duracionMantenimiento,
-			String kmsMantenimiento, String marca, String webMarca) {
+			String kmsMantenimiento, String marca, String webMarca, String comisionApertura) {
 		super();
 		this.numerolegal = numerolegal;
 		this.cuotaSinIVA = cuotaSinIVA;
@@ -52,8 +53,8 @@ public class LegalPB {
 		this.acabado = acabado;
 		this.precioFinanciadoConIVA = precioFinanciadoConIVA;
 		this.precioFinanciadoSinIVA = precioFinanciadoSinIVA;
-		tin = tin;
-		tae = tae;
+		this.tin = tin;
+		this.tae = tae;
 		this.entradaSinIVA = entradaSinIVA;
 		this.entradaConIVA = entradaConIVA;
 		this.numeroCuotas = numeroCuotas;
@@ -76,6 +77,7 @@ public class LegalPB {
 		this.kmsMantenimiento = kmsMantenimiento;
 		this.marca = marca;
 		this.webMarca = webMarca;
+		this.comisionApertura = comisionApertura;
 	}
 	/**
 	 * @return the numerolegal
@@ -161,7 +163,6 @@ public class LegalPB {
 	public void setPrecioFinanciadoSinIVA(String precioFinanciadoSinIVA) {
 		this.precioFinanciadoSinIVA = precioFinanciadoSinIVA;
 	}
-
 	/**
 	 * @return the tin
 	 */
@@ -450,5 +451,16 @@ public class LegalPB {
 	public void setWebMarca(String webMarca) {
 		this.webMarca = webMarca;
 	}
-
+	/**
+	 * @return the comisionApertura
+	 */
+	public String getComisionApertura() {
+		return comisionApertura;
+	}
+	/**
+	 * @param comisionApertura the comisionApertura to set
+	 */
+	public void setComisionApertura(String comisionApertura) {
+		this.comisionApertura = comisionApertura;
+	}
 }
