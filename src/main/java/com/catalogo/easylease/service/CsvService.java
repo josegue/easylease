@@ -236,7 +236,7 @@ public class CsvService {
 		legal.setFianza(formatoNumero(cleanData(getCellValue(row.getCell(43)))));//AR
 	    legal.setConsumo(cleanData(getCellValue(row.getCell(46))));//AU
 	    legal.setEntradaSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(12)))));//M
-	    legal.setNumeroCuotas(formatoNumero(cleanData(getCellValue(row.getCell(27)))));//AB
+	    legal.setNumeroCuotas(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(27)))));//AB
 	    legal.setComisionAperturaSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(31)))));//AF
 	    legal.setComisionAperturaConIVA(formatoNumero(cleanData(getCellValue(row.getCell(30)))));//AE
 	    legal.setWebMarca(getWebMarca(cleanAcentos(cleanData(getCellValue(row.getCell(21))).replace(" ", "_"))));
@@ -258,7 +258,7 @@ public class CsvService {
 		legal.setCosteTotalConIVA(formatoNumero(cleanData(getCellValue(row.getCell(40)))));//AO
 		legal.setFianza(formatoNumero(cleanData(getCellValue(row.getCell(43)))));//AR
 	    legal.setEntradaSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(12)))));//M
-	    legal.setNumeroCuotas(formatoNumero(cleanData(getCellValue(row.getCell(27)))));//AB
+	    legal.setNumeroCuotas(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(27)))));//AB
 	    legal.setComisionAperturaSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(31)))));//AF
 	    legal.setComisionAperturaConIVA(formatoNumero(cleanData(getCellValue(row.getCell(30)))));//AE
 	    legal.setWebMarca(getWebMarca(cleanAcentos(cleanData(getCellValue(row.getCell(21))).replace(" ", "_"))));
