@@ -139,6 +139,7 @@ public class CsvService {
 		legal.setCosteTotalConIVA(formatoNumero(cleanData(getCellValue(row.getCell(40)))));//AO
 		legal.setFianza(formatoNumero(cleanData(getCellValue(row.getCell(43)))));//AR
 	    legal.setEntradaSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(12)))));//M
+	    legal.setEntradaConIVA(formatoNumero(cleanData(getCellValue(row.getCell(70)))));//BS
 	    legal.setNumeroCuotas(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(27)))));//AB
 	    legal.setComisionAperturaSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(31)))));//AF
 	    legal.setComisionAperturaConIVA(formatoNumero(cleanData(getCellValue(row.getCell(30)))));//AE
