@@ -184,12 +184,9 @@ public class CsvService {
 	    producto.setNumerolegal(numeroLegal);
 	    producto.setTin(formatoNumeroPorcentaje(cleanData(getCellValue(row.getCell(32)))));
 	    producto.setTae(formatoNumeroPorcentaje(cleanData(getCellValue(row.getCell(33)))));
-//	    producto.setMeses(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(26)))));
-//	    producto.setKm(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(28)))));
 	    producto.setUltimaCuotaSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(34)))));
 	    producto.setEnvironmental("https://easylease-stl.com/labels/label-nolabel.png");
 	    producto.setEnvironmentalalt("");
-//	    producto.setPrimeraCuotaSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(47)))));
 		producto.setEntradaSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(12)))));//M
 		producto.setFianza(formatoNumero(cleanData(getCellValue(row.getCell(43)))));//AR
 		return producto;
@@ -223,7 +220,7 @@ public class CsvService {
 		legal.setCuotaMensualSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(24)))));//Y
 		legal.setCuotaMensualConIVA(formatoNumero(cleanData(getCellValue(row.getCell(25)))));//Z
 		legal.setModelo(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(22)))));
-//		legal.setSubtitulo(cleanData(getCellValue(row.getCell(23))));
+		legal.setAcabado(cleanData(getCellValue(row.getCell(23))));
 		legal.setPrecioFinanciadoConIVA(formatoNumero(cleanData(getCellValue(row.getCell(36)))));//AK
 		legal.setPrecioFinanciadoSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(37)))));//AL
 		legal.setMeses(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(26)))));
@@ -236,11 +233,8 @@ public class CsvService {
 		legal.setCosteTotalSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(41)))));//AP
 		legal.setCosteTotalConIVA(formatoNumero(cleanData(getCellValue(row.getCell(40)))));//AO
 		legal.setFechaValidez1(formatoFecha(cleanData(getCellValue(row.getCell(45)))));//AT
-//		legal.setPrecioAlContado(formatoNumero(cleanData(getCellValue(row.getCell(42)))));//AQ
 		legal.setFianza(formatoNumero(cleanData(getCellValue(row.getCell(43)))));//AR
 	    legal.setConsumo(cleanData(getCellValue(row.getCell(46))));//AU
-//	    legal.setPrimeraCuotaSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(47))))); //T
-//	    legal.setPrimeraCuotaConIVA(formatoNumero(cleanData(getCellValue(row.getCell(19))))); //AV
 	    legal.setEntradaSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(12)))));//M
 	    legal.setNumeroCuotas(formatoNumero(cleanData(getCellValue(row.getCell(27)))));//AB
 	    legal.setComisionAperturaSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(31)))));//AF
@@ -284,8 +278,9 @@ public class CsvService {
 		legal.setDuracionMantenimiento(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(63)))));//BL
 		legal.setKmsMantenimiento(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(62)))));//BK
 		legal.setComisionApertura(formatoNumeroPorcentaje(cleanData(getCellValue(row.getCell(29)))));//AD
-		legal.setMarca(marca);
-		
+		if(marca!=null) {
+			legal.setMarca(marca.substring(0, 1).toUpperCase() + marca.substring(1));	
+		}
 	    return legal;
 	    
 
@@ -296,27 +291,27 @@ public class CsvService {
 
 	    switch (marca) {
 	        case "ABARTH":
-	            return "https://www.abarth.es";
+	            return "www.abarth.es";
 	        case "ALFA_ROMEO":
-	            return "https://www.alfaromeo.es";
+	            return "www.alfaromeo.es";
 	        case "CITROEN":
-	            return "https://www.citroen.es";
+	            return "www.citroen.es";
 	        case "DS":
-	            return "https://www.dsautomobiles.es";
+	            return "www.dsautomobiles.es";
 	        case "FIAT":
-	            return "https://www.fiat.es";
+	            return "www.fiat.es";
 	        case "FIAT_PRO":
-	            return "https://www.fiatprofessional.com/es";
+	            return "www.fiatprofessional.com/es";
 	        case "JEEP":
-	            return "https://www.jeep.es";
+	            return "www.jeep.es";
 	        case "LANCIA":
-	            return "https://www.lancia.es";
+	            return "www.lancia.es";
 	        case "LEAPMOTOR":
-	            return "https://www.leapmotor.net";
+	            return "www.leapmotor.net";
 	        case "OPEL":
-	            return "https://www.opel.es";
+	            return "www.opel.es";
 	        case "PEUGEOT":
-	            return "https://www.peugeot.es";
+	            return "www.peugeot.es";
 	        default:
 	            return("Marca no soportada: " + marca);
 	    }
@@ -393,6 +388,10 @@ public class CsvService {
 	        numeroFormateado = formato.format(numero);
         	numero = numero * 100;
 	        numeroFormateado = formato.format(numero);
+	        if(numeroFormateado.equalsIgnoreCase(",00")) {
+	        	numeroFormateado = "0,00";
+	        }
+	        
 		} catch (NumberFormatException e) {
 		}
 		return numeroFormateado;

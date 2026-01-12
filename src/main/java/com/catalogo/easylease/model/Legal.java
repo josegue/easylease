@@ -6,6 +6,7 @@ public class Legal {
 	private String cuotaMensualSinIVA;//Y
 	private String cuotaMensualConIVA;//Z
 	private String modelo;
+	private String acabado;// X
 //	private String subtitulo;
 	private String precioFinanciadoConIVA;//AK
 	private String precioFinanciadoSinIVA;//AL
@@ -310,6 +311,18 @@ public class Legal {
 	 */
 	public void setWebMarca(String webMarca) {
 		this.webMarca = webMarca;
+	}
+	/**
+	 * @return the acabado
+	 */
+	public String getAcabado() {
+		return acabado;
+	}
+	/**
+	 * @param acabado the acabado to set
+	 */
+	public void setAcabado(String acabado) {
+		this.acabado = acabado;
 	}
 	
 }
