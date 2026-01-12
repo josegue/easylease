@@ -50,125 +50,6 @@ public class CsvService {
 	String line = "";
 	String splitBy = ";";
 
-	public Map<String, InputStream> listarFicheros() {
-
-		String server = "easylease-stl.com";
-		int port = 21;
-		String user = "jose@easylease-stl.com";
-		String password = "uV8xzaKXShMA4e94eS3d";
-		Map<String, InputStream> datos = new HashMap<String, InputStream>();
-
-		FTPClient ftpClient = new FTPClient();
-
-		try {
-			// Conectar al servidor FTP
-			ftpClient.connect(server, port);
-			ftpClient.login(user, password);
-
-			// Configurar el modo de transferencia a binario
-			ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
-			ftpClient.enterLocalPassiveMode();
-
-			// Ruta del archivo en el servidor FTP
-			String remoteFilePath = "/public_ftp/csv";
-			// Ruta del archivo en tu máquina local
-			String localFile = "archivo_descargado.txt";
-
-			FTPFile[] files = ftpClient.listFiles(remoteFilePath);
-			if (files != null) {
-				for (FTPFile ftpFile : files) {
-					if (ftpFile.getName() != null) {
-						String name = ftpFile.getName();
-						if ((name != null) && (name.compareToIgnoreCase(".") != 0)
-								&& (name.compareToIgnoreCase("..") != 0)) {
-							InputStream inputStream = ftpClient.retrieveFileStream(remoteFilePath + "/" + name);
-							name = name.substring(0, name.indexOf("_"));
-							name = name.toLowerCase();
-							datos.put(name, inputStream);
-						}
-					}
-				}
-			}
-			// Confirmar la finalización de la transferencia
-			ftpClient.completePendingCommand();
-
-			// Cerrar sesión
-			ftpClient.logout();
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		} finally {
-			try {
-				if (ftpClient.isConnected()) {
-					ftpClient.disconnect();
-				}
-			} catch (IOException ex) {
-				ex.printStackTrace();
-			}
-		}
-		return datos;
-	}
-	
-	public Map<String, InputStream> cargarArchivosLocales() throws IOException {
-		String rutaDirectorio = "C:/ficheros/csv";
-        Map<String, InputStream> archivos = new HashMap<>();
-
-        // Obtener la ruta del directorio
-        Path directorio = Paths.get(rutaDirectorio);
-
-        // Validar si la ruta es un directorio
-        if (!Files.isDirectory(directorio)) {
-            throw new IllegalArgumentException("La ruta proporcionada no es un directorio: " + rutaDirectorio);
-        }
-
-        // Recorrer los archivos del directorio
-        try (DirectoryStream<Path> stream = Files.newDirectoryStream(directorio)) {
-        	
-            for (Path archivo : stream) {
-                if (Files.isRegularFile(archivo)) {
-            		Respuesta resp = new Respuesta();
-            		List<Product> productos = new ArrayList<Product>();
-            		List<Legal> legals = new ArrayList<Legal>();
-                    String nombreArchivo = archivo.getFileName().toString();
-                    
-					try (FileInputStream fis = new FileInputStream(archivo.toFile());
-							Workbook workbook = new XSSFWorkbook(fis)) {
-
-						Sheet sheet = workbook.getSheetAt(4); // Primer hoja
-						Integer i = 1;
-						for (Row row : sheet) {
-							if (row.getRowNum() == 0) continue; // Saltar cabecera
-							if (row.getRowNum() == 1) continue; // Saltar cabecera
-							Product producto = getProducto(row,i.toString());
-							if (producto == null) break; // Termina la lectura del fichero
-							productos.add(producto);
-							Legal legal = getLegal(row,i.toString());
-							legals.add(legal);
-							if(i==10) {
-								break;
-							}
-							i++;
-						}
-					} catch (IOException e) {
-						e.printStackTrace();
-					}
-                    
-        			resp.setProduct(productos);
-        			resp.setLegalelist(legals);
-                    
-					nombreArchivo = nombreArchivo.substring(0, nombreArchivo.indexOf("_"));
-					nombreArchivo = nombreArchivo.toLowerCase();
-                    saveJson(nombreArchivo, productos, legals);
-                    System.out.println("CsvService.cargarArchivosLocales() Procesado el fichero: " + nombreArchivo);
-                }
-            }
-        } catch (IOException e) {
-            throw new IOException("Error al leer los archivos del directorio: " + rutaDirectorio, e);
-        }
-
-        return archivos;
-	
-	}
-
 	private Product getProducto(Row row , String numeroLegal) {
 		Product producto = new Product();
 		if (row.getCell(1)==null || getCellValue(row.getCell(1))==null || getCellValue(row.getCell(1)).isEmpty() || getCellValue(row.getCell(1))=="0.0") {
@@ -488,15 +369,30 @@ public class CsvService {
 							for (Row row : sheet) {
 								if (row.getRowNum() == 0) continue; // Saltar cabecera
 								if (row.getRowNum() == 1) continue; // Saltar cabecera
-								Product producto = getProducto(row,i.toString());
-								if (producto == null) break; // Termina la lectura del fichero
-								productos.add(producto);
-								Legal legal = getLegal(row,i.toString());
-								legals.add(legal);
-								LegalPB legalPB = getLegalPB(row,i.toString(),marca);
-								legalsPB.add(legalPB);
-								ProductPB productoPB = getProductoPB(row,i.toString());
-								productosPB.add(productoPB);
+								String packBussines = getPackBussines(row);
+								if (packBussines == null) break; // Termina la lectura del fichero
+								
+								if(packBussines.equalsIgnoreCase("AMBOS")) {
+									Product producto = getProducto(row,i.toString());
+									productos.add(producto);
+									Legal legal = getLegal(row,i.toString());
+									legals.add(legal);
+									LegalPB legalPB = getLegalPB(row,i.toString(),marca);
+									legalsPB.add(legalPB);
+									ProductPB productoPB = getProductoPB(row,i.toString());
+									productosPB.add(productoPB);									
+								} else if(packBussines.equalsIgnoreCase("CERO")) {
+									Product producto = getProducto(row,i.toString());
+									productos.add(producto);
+									Legal legal = getLegal(row,i.toString());
+									legals.add(legal);
+								} else if(packBussines.equalsIgnoreCase("BUSINESS")) {
+									LegalPB legalPB = getLegalPB(row,i.toString(),marca);
+									legalsPB.add(legalPB);
+									ProductPB productoPB = getProductoPB(row,i.toString());
+									productosPB.add(productoPB);
+								}
+								
 								if(i==10) {
 									break;
 								}
@@ -594,6 +490,13 @@ public class CsvService {
 		}
 
 		return archivos;
+	}
+
+	private String getPackBussines(Row row) {
+		if (row.getCell(1)==null || getCellValue(row.getCell(1))==null || getCellValue(row.getCell(1)).isEmpty() || getCellValue(row.getCell(1))=="0.0") {
+			return null; 
+		}
+		return cleanData(getCellValue(row.getCell(65)));//BN
 	}
 
 	public boolean saveJsonFTP(String name, Respuesta resp) {
