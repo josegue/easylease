@@ -493,8 +493,7 @@ public class CsvService {
 	}
 
 	private String getPackBussines(Row row) {
-		System.out.println("CsvService.getPackBussines() getCellValue(row.getCell(1)) -> " + getCellValue(row.getCell(1)));
-		if (row.getCell(1)==null || getCellValue(row.getCell(1))==null || getCellValue(row.getCell(1)).isEmpty() || getCellValue(row.getCell(1))=="0.0") {
+		if (row.getCell(1)==null || getCellValue(row.getCell(1))==null || getCellValue(row.getCell(1)).isEmpty() || getCellValue(row.getCell(1)).equalsIgnoreCase("0.0")) {
 			return null; 
 		}
 		return cleanData(getCellValue(row.getCell(64)));//BN
