@@ -496,7 +496,7 @@ public class CsvService {
 		if (row.getCell(1)==null || getCellValue(row.getCell(1))==null || getCellValue(row.getCell(1)).isEmpty() || getCellValue(row.getCell(1))=="0.0") {
 			return null; 
 		}
-		return cleanData(getCellValue(row.getCell(65)));//BN
+		return cleanData(getCellValue(row.getCell(64)));//BN
 	}
 
 	public boolean saveJsonFTP(String name, Respuesta resp) {
