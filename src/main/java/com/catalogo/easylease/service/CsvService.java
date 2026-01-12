@@ -388,7 +388,8 @@ public class CsvService {
 	        numeroFormateado = formato.format(numero);
         	numero = numero * 100;
 	        numeroFormateado = formato.format(numero);
-	        if(numeroFormateado.equalsIgnoreCase(",00")) {
+	        numeroFormateado=numeroFormateado.replace('.', ',');
+	        if((numeroFormateado.equalsIgnoreCase(",00"))||(numeroFormateado.equalsIgnoreCase(".00"))) {
 	        	numeroFormateado = "0,00";
 	        }
 	        
