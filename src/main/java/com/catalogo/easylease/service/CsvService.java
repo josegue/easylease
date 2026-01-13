@@ -145,7 +145,7 @@ public class CsvService {
 	    legal.setComisionAperturaSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(31)))));//AF
 	    legal.setComisionAperturaConIVA(formatoNumero(cleanData(getCellValue(row.getCell(30)))));//AE
 	    legal.setWebMarca(getWebMarca(marca));
-
+	    legal.setConsumo(cleanData(getCellValue(row.getCell(46))));//AU
 		legal.setCuotaSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(41)))));//AP
 		legal.setPlazo(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(26)))));//AA
 		legal.setKmsTotales(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(28)))));//AC

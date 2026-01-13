@@ -34,51 +34,11 @@ public class LegalPB {
 	private String marca;
 	private String webMarca;
 	private String comisionApertura;
+    private String consumo;//AU
 	public LegalPB() {
 		super();
 	}
-	public LegalPB(String numerolegal, String cuotaSinIVA, String plazo, String kmsTotales, String acabado,
-			String precioFinanciadoConIVA, String precioFinanciadoSinIVA, String tin, String tae, String entradaSinIVA,
-			String entradaConIVA, String numeroCuotas, String cuotaConIVA, String ultimaCuotaSinIVA,
-			String ultimaCuotaConIVA, String comisionAperturaSinIVA, String comisionAperturaConIVA,
-			String totalinteresesSinIVA, String totalinteresesConIVA, String costeTotalSinIVA, String costeTotalConIVA,
-			String fechaValidez2, String fianza, String packBusiness, String cuotaSeguroAuto,
-			String cuotaGestiondeMultas, String cuotaMantenimiento, String duracionMantenimiento,
-			String kmsMantenimiento, String marca, String webMarca, String comisionApertura) {
-		super();
-		this.numerolegal = numerolegal;
-		this.cuotaSinIVA = cuotaSinIVA;
-		this.plazo = plazo;
-		this.kmsTotales = kmsTotales;
-		this.acabado = acabado;
-		this.precioFinanciadoConIVA = precioFinanciadoConIVA;
-		this.precioFinanciadoSinIVA = precioFinanciadoSinIVA;
-		this.tin = tin;
-		this.tae = tae;
-		this.entradaSinIVA = entradaSinIVA;
-		this.entradaConIVA = entradaConIVA;
-		this.numeroCuotas = numeroCuotas;
-		this.cuotaConIVA = cuotaConIVA;
-		this.ultimaCuotaSinIVA = ultimaCuotaSinIVA;
-		this.ultimaCuotaConIVA = ultimaCuotaConIVA;
-		this.comisionAperturaSinIVA = comisionAperturaSinIVA;
-		this.comisionAperturaConIVA = comisionAperturaConIVA;
-		this.totalinteresesSinIVA = totalinteresesSinIVA;
-		this.totalinteresesConIVA = totalinteresesConIVA;
-		this.costeTotalSinIVA = costeTotalSinIVA;
-		this.costeTotalConIVA = costeTotalConIVA;
-		this.fechaValidez2 = fechaValidez2;
-		this.fianza = fianza;
-		this.packBusiness = packBusiness;
-		this.cuotaSeguroAuto = cuotaSeguroAuto;
-		this.cuotaGestiondeMultas = cuotaGestiondeMultas;
-		this.cuotaMantenimiento = cuotaMantenimiento;
-		this.duracionMantenimiento = duracionMantenimiento;
-		this.kmsMantenimiento = kmsMantenimiento;
-		this.marca = marca;
-		this.webMarca = webMarca;
-		this.comisionApertura = comisionApertura;
-	}
+
 	/**
 	 * @return the numerolegal
 	 */
@@ -463,4 +423,19 @@ public class LegalPB {
 	public void setComisionApertura(String comisionApertura) {
 		this.comisionApertura = comisionApertura;
 	}
+
+	/**
+	 * @return the consumo
+	 */
+	public String getConsumo() {
+		return consumo;
+	}
+
+	/**
+	 * @param consumo the consumo to set
+	 */
+	public void setConsumo(String consumo) {
+		this.consumo = consumo;
+	}
+	
 }
