@@ -94,7 +94,7 @@ public class CsvService {
 		return producto;
 	}
 	
-	private Legal getLegal(Row row, String numeroLegal) {
+	private Legal getLegal(Row row, String numeroLegal, String marca) {
 		Legal legal = new Legal();
 		
 		legal.setNumerolegal(numeroLegal);
@@ -120,7 +120,8 @@ public class CsvService {
 	    legal.setNumeroCuotas(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(27)))));//AB
 	    legal.setComisionAperturaSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(31)))));//AF
 	    legal.setComisionAperturaConIVA(formatoNumero(cleanData(getCellValue(row.getCell(30)))));//AE
-	    legal.setWebMarca(getWebMarca(cleanAcentos(cleanData(getCellValue(row.getCell(21))).replace(" ", "_"))));
+	    legal.setKmsTotales(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(28)))));//AC
+	    legal.setWebMarca(getWebMarca(marca));
 	    return legal;
 		
 	}
@@ -143,7 +144,7 @@ public class CsvService {
 	    legal.setNumeroCuotas(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(27)))));//AB
 	    legal.setComisionAperturaSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(31)))));//AF
 	    legal.setComisionAperturaConIVA(formatoNumero(cleanData(getCellValue(row.getCell(30)))));//AE
-	    legal.setWebMarca(getWebMarca(cleanAcentos(cleanData(getCellValue(row.getCell(21))).replace(" ", "_"))));
+	    legal.setWebMarca(getWebMarca(marca));
 
 		legal.setCuotaSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(41)))));//AP
 		legal.setPlazo(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(26)))));//AA
@@ -164,35 +165,32 @@ public class CsvService {
 			legal.setMarca(marca.substring(0, 1).toUpperCase() + marca.substring(1));	
 		}
 	    return legal;
-	    
-
-		
 	}
 	
 	private String getWebMarca(String marca) {
 
 	    switch (marca) {
-	        case "ABARTH":
+	        case "abarth":
 	            return "www.abarth.es";
-	        case "ALFA_ROMEO":
+	        case "alfa-romeo":
 	            return "www.alfaromeo.es";
-	        case "CITROEN":
+	        case "citroen":
 	            return "www.citroen.es";
-	        case "DS":
+	        case "ds":
 	            return "www.dsautomobiles.es";
-	        case "FIAT":
+	        case "fiat":
 	            return "www.fiat.es";
-	        case "FIAT_PRO":
+	        case "fiat-pro":
 	            return "www.fiatprofessional.com/es";
-	        case "JEEP":
+	        case "jeep":
 	            return "www.jeep.es";
-	        case "LANCIA":
+	        case "lancia":
 	            return "www.lancia.es";
-	        case "LEAPMOTOR":
+	        case "leapmotor":
 	            return "www.leapmotor.net";
-	        case "OPEL":
+	        case "opel":
 	            return "www.opel.es";
-	        case "PEUGEOT":
+	        case "peugeot":
 	            return "www.peugeot.es";
 	        default:
 	            return("Marca no soportada: " + marca);
@@ -343,8 +341,6 @@ public class CsvService {
 					if (success) {
 						System.out.println("Procesando el fichero: " + nombreArchivo);
 						log = "\n" + "Procesando el fichero: " + nombreArchivo;
-	            		Respuesta resp = new Respuesta();
-	            		RespuestaPB respPB = new RespuestaPB();
 	            		List<Product> productos = new ArrayList<Product>();
 	            		List<Legal> legals = new ArrayList<Legal>();
 	            		List<ProductPB> productosPB = new ArrayList<ProductPB>();
@@ -363,8 +359,9 @@ public class CsvService {
 					        }
 					        System.out.println("Hoja " + j);
 							Sheet sheet = workbook.getSheetAt(j);
-		        			String marca = nombreArchivo.substring(21,nombreArchivo.indexOf(".xlsx"));
-		        			marca = marca.substring(0, nombreArchivo.indexOf("_")-1);
+		        			String marca = nombreArchivo;
+		        			marca = marca.substring(21,marca.indexOf(".xlsx"));
+		        			marca = marca.substring(0, marca.indexOf("_"));
 		        			marca = marca.toLowerCase();
 							Integer i = 1;
 							for (Row row : sheet) {
@@ -376,7 +373,7 @@ public class CsvService {
 								if(packBussines.equalsIgnoreCase("AMBOS")) {
 									Product producto = getProducto(row,i.toString());
 									productos.add(producto);
-									Legal legal = getLegal(row,i.toString());
+									Legal legal = getLegal(row,i.toString(), marca);
 									legals.add(legal);
 									LegalPB legalPB = getLegalPB(row,i.toString(),marca);
 									legalsPB.add(legalPB);
@@ -385,7 +382,7 @@ public class CsvService {
 								} else if(packBussines.equalsIgnoreCase("CERO")) {
 									Product producto = getProducto(row,i.toString());
 									productos.add(producto);
-									Legal legal = getLegal(row,i.toString());
+									Legal legal = getLegal(row,i.toString(), marca);
 									legals.add(legal);
 								} else if(packBussines.equalsIgnoreCase("BUSINESS")) {
 									LegalPB legalPB = getLegalPB(row,i.toString(),marca);
@@ -403,11 +400,7 @@ public class CsvService {
 							log = "\n" + "Error: " + e.toString();
 							e.printStackTrace();
 						}
-	                    
-	        			resp.setProduct(productos);
-	        			resp.setLegalelist(legals);
-	        			respPB.setProduct(productosPB);
-	        			respPB.setLegalelist(legalsPB);
+
 	        			nombreArchivo = nombreArchivo.substring(21,nombreArchivo.indexOf(".xlsx"));
 						nombreArchivo = nombreArchivo.substring(0, nombreArchivo.indexOf("_"));
 						nombreArchivo = nombreArchivo.toLowerCase();

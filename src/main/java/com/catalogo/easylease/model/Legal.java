@@ -7,7 +7,7 @@ public class Legal {
 	private String cuotaMensualConIVA;//Z
 	private String modelo;
 	private String acabado;// X
-//	private String subtitulo;
+	private String kmsTotales;
 	private String precioFinanciadoConIVA;//AK
 	private String precioFinanciadoSinIVA;//AL
 	private String meses;
@@ -324,5 +324,16 @@ public class Legal {
 	public void setAcabado(String acabado) {
 		this.acabado = acabado;
 	}
-	
+	/**
+	 * @return the kmsTotales
+	 */
+	public String getKmsTotales() {
+		return kmsTotales;
+	}
+	/**
+	 * @param kmsTotales the kmsTotales to set
+	 */
+	public void setKmsTotales(String kmsTotales) {
+		this.kmsTotales = kmsTotales;
+	}
 }
