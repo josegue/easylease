@@ -25,7 +25,7 @@ public class Legal {
 	private String comisionAperturaSinIVA;
 	private String comisionAperturaConIVA;
 	private String entradaSinIVA;
-//	private String entradaConIVA;
+	private String entradaConIVA;
 
 
 	private String fianza;//AR
@@ -335,5 +335,17 @@ public class Legal {
 	 */
 	public void setKmsTotales(String kmsTotales) {
 		this.kmsTotales = kmsTotales;
+	}
+	/**
+	 * @return the entradaConIVA
+	 */
+	public String getEntradaConIVA() {
+		return entradaConIVA;
+	}
+	/**
+	 * @param entradaConIVA the entradaConIVA to set
+	 */
+	public void setEntradaConIVA(String entradaConIVA) {
+		this.entradaConIVA = entradaConIVA;
 	}
 }

@@ -3,12 +3,10 @@ package com.catalogo.easylease.service;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.nio.file.DirectoryStream;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.DecimalFormat;
 import java.text.DecimalFormatSymbols;
@@ -26,7 +24,6 @@ import java.util.Map;
 
 import org.apache.commons.net.ftp.FTP;
 import org.apache.commons.net.ftp.FTPClient;
-import org.apache.commons.net.ftp.FTPFile;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
@@ -41,7 +38,6 @@ import com.catalogo.easylease.model.LegalPB;
 import com.catalogo.easylease.model.Product;
 import com.catalogo.easylease.model.ProductPB;
 import com.catalogo.easylease.model.Respuesta;
-import com.catalogo.easylease.model.RespuestaPB;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Service
@@ -117,6 +113,7 @@ public class CsvService {
 		legal.setFianza(formatoNumero(cleanData(getCellValue(row.getCell(43)))));//AR
 	    legal.setConsumo(cleanData(getCellValue(row.getCell(46))));//AU
 	    legal.setEntradaSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(12)))));//M
+	    legal.setEntradaConIVA(formatoNumero(cleanData(getCellValue(row.getCell(70)))));//BS
 	    legal.setNumeroCuotas(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(27)))));//AB
 	    legal.setComisionAperturaSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(31)))));//AF
 	    legal.setComisionAperturaConIVA(formatoNumero(cleanData(getCellValue(row.getCell(30)))));//AE
@@ -414,7 +411,8 @@ public class CsvService {
 						jsonContentLegals = jsonContentLegals.replaceAll("\\]","\\];");
 						String result = jsonContentProducts + "\n" + jsonContentLegals;
 
-						InputStream inputStream = new ByteArrayInputStream(result.getBytes());
+//						InputStream inputStream = new ByteArrayInputStream(result.getBytes());
+						InputStream inputStream = new ByteArrayInputStream(result.getBytes(StandardCharsets.UTF_8));
 
 			            // Subir el archivo JSON al directorio FTP
 			            String remoteFilePath = "/public_html/" + nombreArchivo + "_PRE/js/products.js";
@@ -439,7 +437,7 @@ public class CsvService {
 						jsonContentLegalsPB = jsonContentLegalsPB.replaceAll("\\]","\\];");
 						String resultPB = jsonContentProductsPB + "\n" + jsonContentLegalsPB;
 
-						InputStream inputStreamPB = new ByteArrayInputStream(resultPB.getBytes());
+						InputStream inputStreamPB = new ByteArrayInputStream(resultPB.getBytes(StandardCharsets.UTF_8));
 
 			            // Subir el archivo JSON al directorio FTP
 			            String remoteFilePathPB = "/public_html/" + nombreArchivo + "-packbusiness_PRE/js/products_PB.js";
