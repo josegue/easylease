@@ -35,6 +35,7 @@ public class LegalPB {
 	private String webMarca;
 	private String comisionApertura;
     private String consumo;//AU
+    private String modelo;
 	public LegalPB() {
 		super();
 	}
@@ -436,6 +437,20 @@ public class LegalPB {
 	 */
 	public void setConsumo(String consumo) {
 		this.consumo = consumo;
+	}
+
+	/**
+	 * @return the modelo
+	 */
+	public String getModelo() {
+		return modelo;
+	}
+
+	/**
+	 * @param modelo the modelo to set
+	 */
+	public void setModelo(String modelo) {
+		this.modelo = modelo;
 	}
 	
 }
