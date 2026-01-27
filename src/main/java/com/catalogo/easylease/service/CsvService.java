@@ -65,7 +65,7 @@ public class CsvService {
 	    producto.setEnvironmental("https://easylease-stl.com/_shared/media/labels/label-nolabel.png");
 	    producto.setEnvironmentalalt("");
 	    String valorEntradaSinIVA = formatoNumero(cleanData(getCellValue(row.getCell(12))));//M
-	    producto.setEntradaSinIVA("0,00".equals(valorEntradaSinIVA) || "0.00".equals(valorEntradaSinIVA) ? "Sin entrada" : "Entrada: " + valorEntradaSinIVA);
+	    producto.setEntradaSinIVA("0,00".equals(valorEntradaSinIVA) || "0.00".equals(valorEntradaSinIVA) ? "Sin entrada" : "Entrada: " + valorEntradaSinIVA + " €");
 		producto.setFianza(formatoNumero(cleanData(getCellValue(row.getCell(43)))));//AR
 		return producto;
 	}
@@ -86,7 +86,7 @@ public class CsvService {
 	    producto.setEnvironmental("https://easylease-stl.com/_shared/media/labels/label-nolabel.png");
 	    producto.setEnvironmentalalt("");
 	    String valorEntradaSinIVA = formatoNumero(cleanData(getCellValue(row.getCell(12))));//M
-	    producto.setEntradaSinIVA("0,00".equals(valorEntradaSinIVA) || "0.00".equals(valorEntradaSinIVA)  ? "Sin entrada" : "Entrada: " + valorEntradaSinIVA);
+	    producto.setEntradaSinIVA("0,00".equals(valorEntradaSinIVA) || "0.00".equals(valorEntradaSinIVA)  ? "Sin entrada" : "Entrada: " + valorEntradaSinIVA + " €");
 		producto.setFianza(formatoNumero(cleanData(getCellValue(row.getCell(43)))));//AR
 		producto.setCuotaConPackBusiness(formatoNumero(cleanData(getCellValue(row.getCell(49)))));//AX
 		return producto;
@@ -114,10 +114,8 @@ public class CsvService {
 		legal.setFechaValidez1(formatoFecha(cleanData(getCellValue(row.getCell(45)))));//AT
 		legal.setFianza(formatoNumero(cleanData(getCellValue(row.getCell(43)))));//AR
 	    legal.setConsumo(cleanData(getCellValue(row.getCell(46))));//AU
-	    String valorEntradaSinIVA = formatoNumero(cleanData(getCellValue(row.getCell(12))));//M
-	    legal.setEntradaSinIVA("0,00".equals(valorEntradaSinIVA) || "0.00".equals(valorEntradaSinIVA)  ? "Sin entrada" : "Entrada: " + valorEntradaSinIVA);
-	    String valorEntradaConIVA = formatoNumero(cleanData(getCellValue(row.getCell(48))));//AW
-	    legal.setEntradaConIVA("0,00".equals(valorEntradaConIVA) || "0.00".equals(valorEntradaConIVA)  ? "Sin entrada" : "Entrada: " + valorEntradaConIVA);	    
+	    legal.setEntradaSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(12)))));//M
+	    legal.setEntradaConIVA(formatoNumero(cleanData(getCellValue(row.getCell(48)))));//AW	    
 	    legal.setNumeroCuotas(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(26)))));//AA
 	    legal.setComisionAperturaSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(31)))));//AF
 	    legal.setComisionAperturaConIVA(formatoNumero(cleanData(getCellValue(row.getCell(30)))));//AE
@@ -140,10 +138,7 @@ public class CsvService {
 		legal.setCosteTotalSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(41)))));//AP
 		legal.setCosteTotalConIVA(formatoNumero(cleanData(getCellValue(row.getCell(40)))));//AO
 		legal.setFianza(formatoNumero(cleanData(getCellValue(row.getCell(43)))));//AR
-	    String valorEntradaSinIVA = formatoNumero(cleanData(getCellValue(row.getCell(12))));//M
-	    legal.setEntradaSinIVA("0,00".equals(valorEntradaSinIVA) || "0.00".equals(valorEntradaSinIVA) ? "Sin entrada" : "Entrada: " + valorEntradaSinIVA);
-	    String valorEntradaConIVA = formatoNumero(cleanData(getCellValue(row.getCell(48))));//AW
-	    legal.setEntradaConIVA("0,00".equals(valorEntradaConIVA) || "0.00".equals(valorEntradaConIVA) ? "Sin entrada" : "Entrada: " + valorEntradaConIVA);	
+	    legal.setEntradaSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(12)))));//M
 	    legal.setEntradaConIVA(formatoNumero(cleanData(getCellValue(row.getCell(48)))));//AW
 	    legal.setNumeroCuotas(formatoNumeroSinDecimales(cleanData(getCellValue(row.getCell(26)))));//AA
 	    legal.setComisionAperturaSinIVA(formatoNumero(cleanData(getCellValue(row.getCell(31)))));//AF
