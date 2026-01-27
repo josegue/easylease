@@ -65,7 +65,7 @@ public class CsvService {
 	    producto.setEnvironmental("https://easylease-stl.com/_shared/media/labels/label-nolabel.png");
 	    producto.setEnvironmentalalt("");
 	    String valorEntradaSinIVA = formatoNumero(cleanData(getCellValue(row.getCell(12))));//M
-	    producto.setEntradaSinIVA("0,00".equals(valorEntradaSinIVA) || "0.00".equals(valorEntradaSinIVA) ? "Sin entrada" : "Entrada: " + valorEntradaSinIVA + " €");
+	    producto.setEntradaSinIVA("0,00".equals(valorEntradaSinIVA) || "0.00".equals(valorEntradaSinIVA) ? "Sin entrada" : "Entrada: " + valorEntradaSinIVA + " € + IVA");
 		producto.setFianza(formatoNumero(cleanData(getCellValue(row.getCell(43)))));//AR
 		return producto;
 	}
@@ -86,7 +86,7 @@ public class CsvService {
 	    producto.setEnvironmental("https://easylease-stl.com/_shared/media/labels/label-nolabel.png");
 	    producto.setEnvironmentalalt("");
 	    String valorEntradaSinIVA = formatoNumero(cleanData(getCellValue(row.getCell(12))));//M
-	    producto.setEntradaSinIVA("0,00".equals(valorEntradaSinIVA) || "0.00".equals(valorEntradaSinIVA)  ? "Sin entrada" : "Entrada: " + valorEntradaSinIVA + " €");
+	    producto.setEntradaSinIVA("0,00".equals(valorEntradaSinIVA) || "0.00".equals(valorEntradaSinIVA)  ? "Sin entrada" : "Entrada: " + valorEntradaSinIVA + " € + IVA");
 		producto.setFianza(formatoNumero(cleanData(getCellValue(row.getCell(43)))));//AR
 		producto.setCuotaConPackBusiness(formatoNumero(cleanData(getCellValue(row.getCell(49)))));//AX
 		return producto;
