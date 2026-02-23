@@ -389,6 +389,9 @@ public class CsvService {
 									legalsPB.add(legalPB);
 									ProductPB productoPB = getProductoPB(row,i.toString());
 									productosPB.add(productoPB);
+								} else {
+									log += "\n" + "No se puede determinar si hay que contruir el Pack Busines o no la línea " + i +" del fichero: " + nombreArchivo;
+									System.err.println("No se puede determinar si hay que contruir el Pack Busines o no la línea " + i + " del fichero: " + nombreArchivo);
 								}
 								
 								if(i==10) {
@@ -397,7 +400,7 @@ public class CsvService {
 								i++;
 							}
 						} catch (IOException e) {
-							log = "\n" + "Error: " + e.toString();
+							log += "\n" + "Error: " + e.toString();
 							e.printStackTrace();
 						}
 
@@ -422,10 +425,10 @@ public class CsvService {
 			            success = ftpClient.storeFile(remoteFilePath, inputStream);
 
 			            if (success) {
-			            	log = "\n" + "Archivo JSON guardado exitosamente en: " + remoteFilePath;
+			            	log += "\n" + "Archivo JSON guardado exitosamente en: " + remoteFilePath;
 			                System.out.println("Archivo JSON guardado exitosamente en: " + remoteFilePath);
 			            } else {
-			            	log = "\n" + "Error al guardar el archivo JSON." + remoteFilePath;
+			            	log += "\n" + "Error al guardar el archivo JSON." + remoteFilePath;
 			                System.out.println("Error al guardar el archivo JSON.");
 			            }
 
@@ -447,10 +450,10 @@ public class CsvService {
 			            success = ftpClient.storeFile(remoteFilePathPB, inputStreamPB);
 
 			            if (success) {
-			            	log = "\n" + "Archivo JSON guardado exitosamente en: " + remoteFilePathPB;
+			            	log += "\n" + "Archivo JSON guardado exitosamente en: " + remoteFilePathPB;
 			                System.out.println("Archivo JSON guardado exitosamente en: " + remoteFilePathPB);
 			            } else {
-			            	log = "\n" + "Error al guardar el archivo JSON." + remoteFilePathPB;
+			            	log += "\n" + "Error al guardar el archivo JSON." + remoteFilePathPB;
 			                System.out.println("Error al guardar el archivo JSON.");
 			            }
 
@@ -458,7 +461,7 @@ public class CsvService {
 	                    
 	                    System.out.println("CsvService.cargarArchivosLocales() Procesado el fichero: " + nombreArchivo);
 					} else {
-						log = "\n" + "No se pudo descargar el archivo: " + nombreArchivo;
+						log += "\n" + "No se pudo descargar el archivo: " + nombreArchivo;
 						System.err.println("No se pudo descargar el archivo: " + nombreArchivo);
 					}
 					InputStream inputStreamLog = new ByteArrayInputStream(log.getBytes());
