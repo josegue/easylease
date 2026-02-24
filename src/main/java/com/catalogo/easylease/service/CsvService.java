@@ -406,7 +406,7 @@ public class CsvService {
 						nombreArchivo = nombreArchivo.substring(21, nombreArchivo.indexOf(".xlsx"));
 						nombreArchivo = nombreArchivo.substring(0, nombreArchivo.indexOf("_"));
 						nombreArchivo = nombreArchivo.toLowerCase();
-	        			if (!productos.isEmpty()) {
+	        			if ((!productos.isEmpty())&&(!productosPB.isEmpty())) {
 
 							// Convertir el VO a JSON
 							String jsonContentProducts = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(productos);
