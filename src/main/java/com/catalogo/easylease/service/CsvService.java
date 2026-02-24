@@ -403,63 +403,55 @@ public class CsvService {
 							log += "\n" + "Error: " + e.toString();
 							e.printStackTrace();
 						}
-
-	        			nombreArchivo = nombreArchivo.substring(21,nombreArchivo.indexOf(".xlsx"));
+						nombreArchivo = nombreArchivo.substring(21, nombreArchivo.indexOf(".xlsx"));
 						nombreArchivo = nombreArchivo.substring(0, nombreArchivo.indexOf("_"));
 						nombreArchivo = nombreArchivo.toLowerCase();
-						
-			            // Convertir el VO a JSON
-						String jsonContentProducts = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(productos);
-						jsonContentProducts = jsonContentProducts.replaceAll("\\[","const product = \\[");
-						jsonContentProducts = jsonContentProducts.replaceAll("\\]","\\];");
-						String jsonContentLegals = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(legals);
-						jsonContentLegals = jsonContentLegals.replaceAll("\\[","const legalelist = \\[");
-						jsonContentLegals = jsonContentLegals.replaceAll("\\]","\\];");
-						String result = jsonContentProducts + "\n" + jsonContentLegals;
+	        			if (!productos.isEmpty()) {
 
-//						InputStream inputStream = new ByteArrayInputStream(result.getBytes());
-						InputStream inputStream = new ByteArrayInputStream(result.getBytes(StandardCharsets.UTF_8));
-
-			            // Subir el archivo JSON al directorio FTP
-			            String remoteFilePath = "/public_html/" + nombreArchivo + "_PRE/js/products.js";
-			            success = ftpClient.storeFile(remoteFilePath, inputStream);
-
-			            if (success) {
-			            	log += "\n" + "Archivo JSON guardado exitosamente en: " + remoteFilePath;
-			                System.out.println("Archivo JSON guardado exitosamente en: " + remoteFilePath);
-			            } else {
-			            	log += "\n" + "Error al guardar el archivo JSON." + remoteFilePath;
-			                System.out.println("Error al guardar el archivo JSON.");
-			            }
-
-			            inputStream.close();
-			            
-			            // Convertir el VO a JSON el PB
-						String jsonContentProductsPB = objectMapperPB.writerWithDefaultPrettyPrinter().writeValueAsString(productosPB);
-						jsonContentProductsPB = jsonContentProductsPB.replaceAll("\\[","const product = \\[");
-						jsonContentProductsPB = jsonContentProductsPB.replaceAll("\\]","\\];");
-						String jsonContentLegalsPB = objectMapperPB.writerWithDefaultPrettyPrinter().writeValueAsString(legalsPB);
-						jsonContentLegalsPB = jsonContentLegalsPB.replaceAll("\\[","const legalelist = \\[");
-						jsonContentLegalsPB = jsonContentLegalsPB.replaceAll("\\]","\\];");
-						String resultPB = jsonContentProductsPB + "\n" + jsonContentLegalsPB;
-
-						InputStream inputStreamPB = new ByteArrayInputStream(resultPB.getBytes(StandardCharsets.UTF_8));
-
-			            // Subir el archivo JSON al directorio FTP
-			            String remoteFilePathPB = "/public_html/" + nombreArchivo + "-packbusiness_PRE/js/products_PB.js";
-			            success = ftpClient.storeFile(remoteFilePathPB, inputStreamPB);
-
-			            if (success) {
-			            	log += "\n" + "Archivo JSON guardado exitosamente en: " + remoteFilePathPB;
-			                System.out.println("Archivo JSON guardado exitosamente en: " + remoteFilePathPB);
-			            } else {
-			            	log += "\n" + "Error al guardar el archivo JSON." + remoteFilePathPB;
-			                System.out.println("Error al guardar el archivo JSON.");
-			            }
-
-			            inputStreamPB.close();
+							// Convertir el VO a JSON
+							String jsonContentProducts = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(productos);
+							jsonContentProducts = jsonContentProducts.replaceAll("\\[", "const product = \\[");
+							jsonContentProducts = jsonContentProducts.replaceAll("\\]", "\\];");
+							String jsonContentLegals = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(legals);
+							jsonContentLegals = jsonContentLegals.replaceAll("\\[", "const legalelist = \\[");
+							jsonContentLegals = jsonContentLegals.replaceAll("\\]", "\\];");
+							String result = jsonContentProducts + "\n" + jsonContentLegals;
+							InputStream inputStream = new ByteArrayInputStream(result.getBytes(StandardCharsets.UTF_8));
+							String remoteFilePath = "/public_html/" + nombreArchivo + "_PRE/js/products.js";
+							success = ftpClient.storeFile(remoteFilePath, inputStream);
+							if (success) {
+								log += "\n" + "Archivo JSON guardado exitosamente en: " + remoteFilePath;
+								System.out.println("Archivo JSON guardado exitosamente en: " + remoteFilePath);
+							} else {
+								log += "\n" + "Error al guardar el archivo JSON." + remoteFilePath;
+								System.out.println("Error al guardar el archivo JSON.");
+							}
+							inputStream.close();
+							// Convertir el VO a JSON el PB
+							String jsonContentProductsPB = objectMapperPB.writerWithDefaultPrettyPrinter().writeValueAsString(productosPB);
+							jsonContentProductsPB = jsonContentProductsPB.replaceAll("\\[", "const product = \\[");
+							jsonContentProductsPB = jsonContentProductsPB.replaceAll("\\]", "\\];");
+							String jsonContentLegalsPB = objectMapperPB.writerWithDefaultPrettyPrinter().writeValueAsString(legalsPB);
+							jsonContentLegalsPB = jsonContentLegalsPB.replaceAll("\\[", "const legalelist = \\[");
+							jsonContentLegalsPB = jsonContentLegalsPB.replaceAll("\\]", "\\];");
+							String resultPB = jsonContentProductsPB + "\n" + jsonContentLegalsPB;
+							InputStream inputStreamPB = new ByteArrayInputStream(resultPB.getBytes(StandardCharsets.UTF_8));
+							// Subir el archivo JSON al directorio FTP
+							String remoteFilePathPB = "/public_html/" + nombreArchivo + "-packbusiness_PRE/js/products_PB.js";
+							success = ftpClient.storeFile(remoteFilePathPB, inputStreamPB);
+							if (success) {
+								log += "\n" + "Archivo JSON guardado exitosamente en: " + remoteFilePathPB;
+								System.out.println("Archivo JSON guardado exitosamente en: " + remoteFilePathPB);
+							} else {
+								log += "\n" + "Error al guardar el archivo JSON." + remoteFilePathPB;
+								System.out.println("Error al guardar el archivo JSON.");
+							}
+							inputStreamPB.close();
+						} else {
+							log += "\n" + "No se ha guardado el fichero json porque no se han cargado datos desde el fichero : " + nombreArchivo;
+							System.err.println("No se ha guardado el fichero json porque no se han cargado datos desde el fichero : " + nombreArchivo);
+						}
 	                    
-	                    System.out.println("CsvService.cargarArchivosLocales() Procesado el fichero: " + nombreArchivo);
 					} else {
 						log += "\n" + "No se pudo descargar el archivo: " + nombreArchivo;
 						System.err.println("No se pudo descargar el archivo: " + nombreArchivo);
